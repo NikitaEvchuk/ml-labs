@@ -1,6 +1,6 @@
 # ML Systems Engineering Labs
 
-Laboratory assignments and system benchmarks for Machine Learning Systems.
+System benchmarks for Machine Learning Systems.
 
 ## Structure
 - `lab01/`: Environment and first system measurements (Logistic Regression vs Random Forest on Breast Cancer Wisconsin).
