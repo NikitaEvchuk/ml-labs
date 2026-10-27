@@ -31,7 +31,9 @@ logger = logging.getLogger("pipeline")
 
 # Paths
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+ROOT_DIR = os.path.abspath(os.path.join(BASE_DIR, ".."))
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
+DATA_DIR = os.path.join(ROOT_DIR, "data")
 CONFIG_PATH = os.path.join(BASE_DIR, "config.yaml")
 
 # Column definitions
@@ -69,8 +71,6 @@ def ingest_data() -> pd.DataFrame:
 def validate_data(df: pd.DataFrame) -> dict:
     """Validate schema, ranges, and nulls. Never silently drop rows."""
     logger.info("Step 2: Running schema, range, and missing value checks...")
-    target_col = "class" if "class" in df.columns else "income"
-
     report = {
         "row_count": len(df),
         "column_count": len(df.columns),
@@ -235,6 +235,7 @@ def audit_labels(df: pd.DataFrame, target_col: str = "income") -> dict:
 # -----------------------------------------------------------------------------
 def run_pipeline():
     os.makedirs(RESULTS_DIR, exist_ok=True)
+    os.makedirs(DATA_DIR, exist_ok=True)
     logger.info("==================================================")
     logger.info("STARTING DATA PIPELINE RUN")
     logger.info("==================================================")
@@ -261,20 +262,22 @@ def run_pipeline():
     dropped_dups = len(train_df) - len(train_clean)
     logger.info("Dropped %d duplicate rows from train only. Test rows preserved: %d", dropped_dups, len(test_df))
 
-    # Fit preprocessor on train only and save
+    # Fit preprocessor on train only and save to results/preprocessor.joblib
     preprocessor = AdultPreprocessor(include_derived=True)
     preprocessor.fit(train_clean)
     prep_path = os.path.join(RESULTS_DIR, "preprocessor.joblib")
     joblib.dump(preprocessor, prep_path)
     logger.info("Saved fitted preprocessor to %s", prep_path)
 
-    # Save cleaned processed datasets
-    train_proc = preprocessor.clean_dataframe(train_clean)
-    test_proc = preprocessor.clean_dataframe(test_df)
-    train_csv = os.path.join(RESULTS_DIR, "train_processed.csv")
-    test_csv = os.path.join(RESULTS_DIR, "test_processed.csv")
-    train_proc.to_csv(train_csv, index=False)
-    test_proc.to_csv(test_csv, index=False)
+    # Save cleaned processed datasets to git-ignored data/ directory
+    processed_train = preprocessor.clean_dataframe(train_clean)
+    processed_train[target_col] = train_clean[target_col]
+    processed_test = preprocessor.clean_dataframe(test_df)
+    processed_test[target_col] = test_df[target_col]
+
+    processed_data_path = os.path.join(DATA_DIR, "processed_adult.csv")
+    full_processed = pd.concat([processed_train, processed_test], axis=0)
+    full_processed.to_csv(processed_data_path, index=False)
 
     # 4. Feature Engineering & Logistic Regression Baseline Evaluation
     logger.info("Step 5: Testing Logistic Regression with & without derived features...")
@@ -304,7 +307,7 @@ def run_pipeline():
     logger.info("Without derived: Accuracy=%.4f, F1=%.4f", acc_base, f1_base)
     logger.info("With derived:    Accuracy=%.4f, F1=%.4f", acc_eng, f1_eng)
 
-    # Save metrics
+    # Save metrics to results/metrics.json
     metrics = {
         "without_derived": {"accuracy": round(acc_base, 4), "f1": round(f1_base, 4)},
         "with_derived": {"accuracy": round(acc_eng, 4), "f1": round(f1_eng, 4)},
@@ -327,10 +330,9 @@ def run_pipeline():
         return h.hexdigest()
 
     hashes = {
-        "train_processed_csv": file_sha256(train_csv),
-        "test_processed_csv": file_sha256(test_csv),
-        "preprocessor_joblib": file_sha256(prep_path),
-        "validation_report_json": file_sha256(val_path),
+        "processed_dataset_sha256": file_sha256(processed_data_path),
+        "preprocessor_joblib_sha256": file_sha256(prep_path),
+        "validation_report_json_sha256": file_sha256(val_path),
     }
 
     config = {

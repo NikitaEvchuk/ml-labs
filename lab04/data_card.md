@@ -64,7 +64,6 @@
 - **Range Audit**: Zero range violations across numeric features (`age`, `hours-per-week`, `capital-gain`, `capital-loss`).
 - **Duplicate-Conflict Audit**: Identified 5 distinct feature tuples (10 total rows) where identical individuals have contradictory income labels (`<=50K` vs `>50K`), establishing a non-zero Bayes error floor.
 - **SHA-256 Checksums for Data Artifacts**:
-  - `train_processed.csv`: `6029a8c6ff9c1721edf7289ab027097b1743ffa46ad598a97bb561cec0315e97`
-  - `test_processed.csv`: `f5fb9e6b1e70cdbaddbff1050b664fc989e887d355ca737ea07fd11409473c30`
+  - `processed_dataset`: `8f505bace1f03117b27a28e3f624a6f22f3177c9e7a2607f048d9cb9665a080e`
   - `preprocessor.joblib`: `89b4cd10096188e203e59adebe20b8b28888366b645be645818a1c599e1e60ac`
   - `validation_report.json`: `24534d733bdb13d695d30107f651892717fe96ff86281cd3f4d17ee20c7f4e08`
