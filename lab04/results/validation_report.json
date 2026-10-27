@@ -1,0 +1,209 @@
+{
+  "total_rows": 48842,
+  "total_cols": 15,
+  "schema_checks": {
+    "age": {
+      "expected": "int",
+      "actual": "int64",
+      "valid": true
+    },
+    "workclass": {
+      "expected": "category",
+      "actual": "category",
+      "valid": true
+    },
+    "fnlwgt": {
+      "expected": "int",
+      "actual": "int64",
+      "valid": true
+    },
+    "education": {
+      "expected": "category",
+      "actual": "category",
+      "valid": true
+    },
+    "education-num": {
+      "expected": "int",
+      "actual": "int64",
+      "valid": true
+    },
+    "marital-status": {
+      "expected": "category",
+      "actual": "category",
+      "valid": true
+    },
+    "occupation": {
+      "expected": "category",
+      "actual": "category",
+      "valid": true
+    },
+    "relationship": {
+      "expected": "category",
+      "actual": "category",
+      "valid": true
+    },
+    "race": {
+      "expected": "category",
+      "actual": "category",
+      "valid": true
+    },
+    "sex": {
+      "expected": "category",
+      "actual": "category",
+      "valid": true
+    },
+    "capital-gain": {
+      "expected": "int",
+      "actual": "int64",
+      "valid": true
+    },
+    "capital-loss": {
+      "expected": "int",
+      "actual": "int64",
+      "valid": true
+    },
+    "hours-per-week": {
+      "expected": "int",
+      "actual": "int64",
+      "valid": true
+    },
+    "native-country": {
+      "expected": "category",
+      "actual": "category",
+      "valid": true
+    },
+    "income": {
+      "expected": "category",
+      "actual": "category",
+      "valid": true
+    }
+  },
+  "range_checks": {
+    "age": {
+      "min_allowed": 17,
+      "max_allowed": 90,
+      "observed_min": 17.0,
+      "observed_max": 90.0,
+      "violations_count": 0,
+      "valid": true
+    },
+    "hours-per-week": {
+      "min_allowed": 1,
+      "max_allowed": 99,
+      "observed_min": 1.0,
+      "observed_max": 99.0,
+      "violations_count": 0,
+      "valid": true
+    },
+    "capital-gain": {
+      "min_allowed": 0,
+      "max_allowed": 99999,
+      "observed_min": 0.0,
+      "observed_max": 99999.0,
+      "violations_count": 0,
+      "valid": true
+    },
+    "capital-loss": {
+      "min_allowed": 0,
+      "max_allowed": 4356,
+      "observed_min": 0.0,
+      "observed_max": 4356.0,
+      "violations_count": 0,
+      "valid": true
+    }
+  },
+  "missing_value_checks": {
+    "age": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "workclass": {
+      "nan_count": 2799,
+      "question_mark_count": 0,
+      "total_missing": 2799,
+      "missing_percentage": 5.731
+    },
+    "fnlwgt": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "education": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "education-num": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "marital-status": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "occupation": {
+      "nan_count": 2809,
+      "question_mark_count": 0,
+      "total_missing": 2809,
+      "missing_percentage": 5.751
+    },
+    "relationship": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "race": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "sex": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "capital-gain": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "capital-loss": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "hours-per-week": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    },
+    "native-country": {
+      "nan_count": 857,
+      "question_mark_count": 0,
+      "total_missing": 857,
+      "missing_percentage": 1.755
+    },
+    "income": {
+      "nan_count": 0,
+      "question_mark_count": 0,
+      "total_missing": 0,
+      "missing_percentage": 0.0
+    }
+  },
+  "violations_found": false,
+  "violation_details": []
+}
