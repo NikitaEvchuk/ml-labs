@@ -1,270 +1,360 @@
 """
-Main end-to-end reproducible pipeline for Lab 4.
-Orchestrates:
-1. Ingestion of raw OpenML Adult v2 dataset (48842 rows, 15 columns).
-2. Schema, range, null-policy validation (reports violations without dropping rows).
-3. Leakage-free 70/30 stratified train/test split.
-4. Cleaning: train-only imputation (mode/median), train-only outlier clipping (1st/99th percentiles),
-   and train-only duplicate removal.
-5. Transformer serialization to results/preprocessor.joblib.
-6. Feature engineering (capital_net, hours_per_age) and Logistic Regression baseline evaluation.
-7. Label-quality audit (duplicate-conflict audit and 50-row data dictionary check).
-8. Processed dataset SHA256 hashing and config YAML generation.
-
-Runnable with one command:
-    python lab04/src/pipeline.py
+Lab 4: Data pipeline and quality
+Single-file pipeline that handles:
+- Ingestion of UCI Adult (OpenML name='adult', version=2)
+- Schema, range, and missing value validation (no silent dropping)
+- Leakage-free 70/30 stratified train/test split and cleaning
+- Feature engineering (capital_net, hours_per_age)
+- Baseline Logistic Regression evaluation
+- Label quality audit (duplicate conflicts and 50-row manual check)
+- SHA-256 hashing and config YAML output
 """
 
 import hashlib
 import json
 import logging
 import os
-import sys
-from typing import Any, Dict
+import joblib
+import numpy as np
 import pandas as pd
 import yaml
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.datasets import fetch_openml
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-# Set up project root in python path
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.abspath(os.path.join(CURRENT_DIR, "..", ".."))
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+# Set up logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger("pipeline")
 
-from lab04.src.ingestion import load_raw_data
-from lab04.src.validation import validate_dataset, save_validation_report
-from lab04.src.transformation import (
-    split_data,
-    drop_train_duplicates,
-    AdultPreprocessor,
-    save_preprocessor,
-)
-from lab04.src.baseline import evaluate_baselines, save_metrics
-from lab04.src.label_quality import audit_duplicate_conflicts, audit_50_row_sample
+# Paths
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+RESULTS_DIR = os.path.join(BASE_DIR, "results")
+CONFIG_PATH = os.path.join(BASE_DIR, "config.yaml")
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%H:%M:%S",
-)
-logger = logging.getLogger("lab04_pipeline")
-
-
-def compute_sha256(filepath: str) -> str:
-    """Compute SHA-256 hash of a file."""
-    hasher = hashlib.sha256()
-    with open(filepath, "rb") as f:
-        while chunk := f.read(65536):
-            hasher.update(chunk)
-    return hasher.hexdigest()
+# Column definitions
+NUMERIC_COLS = ["age", "fnlwgt", "education-num", "capital-gain", "capital-loss", "hours-per-week"]
+CATEGORICAL_COLS = [
+    "workclass", "education", "marital-status", "occupation",
+    "relationship", "race", "sex", "native-country"
+]
+NUMERIC_RANGES = {
+    "age": (17, 90),
+    "hours-per-week": (1, 99),
+    "capital-gain": (0, 99999),
+    "capital-loss": (0, 4356),
+}
 
 
-def run_pipeline() -> Dict[str, Any]:
-    """Execute the full end-to-end data pipeline."""
-    base_dir = os.path.abspath(os.path.join(CURRENT_DIR, ".."))
-    results_dir = os.path.join(base_dir, "results")
-    os.makedirs(results_dir, exist_ok=True)
+# -----------------------------------------------------------------------------
+# 1. Ingestion Step
+# -----------------------------------------------------------------------------
+def ingest_data() -> pd.DataFrame:
+    """Read raw UCI Adult data from OpenML without modification."""
+    logger.info("Step 1: Reading raw data from OpenML (name='adult', version=2)...")
+    data = fetch_openml(name="adult", version=2, as_frame=True)
+    raw_df = data.frame.copy()
 
-    logger.info("================================================================")
-    logger.info("STARTING LAB 4 DATA PIPELINE EXECUTION")
-    logger.info("================================================================")
+    # Log row count and column count
+    num_rows, num_cols = raw_df.shape
+    logger.info("Raw data loaded: %d rows and %d columns", num_rows, num_cols)
+    return raw_df
 
-    # -------------------------------------------------------------------------
-    # STEP 1 & 2: Ingestion
-    # -------------------------------------------------------------------------
-    logger.info("[Step 2/7] Ingesting raw UCI Adult dataset without modification...")
-    raw_df = load_raw_data()
-    row_count, col_count = raw_df.shape
-    logger.info("Raw dataset shape: %d rows, %d columns", row_count, col_count)
 
-    # Standardize target name for internal processing
-    df = raw_df.copy()
-    if "class" in df.columns and "income" not in df.columns:
-        df = df.rename(columns={"class": "income"})
+# -----------------------------------------------------------------------------
+# 2. Validation Step
+# -----------------------------------------------------------------------------
+def validate_data(df: pd.DataFrame) -> dict:
+    """Validate schema, ranges, and nulls. Never silently drop rows."""
+    logger.info("Step 2: Running schema, range, and missing value checks...")
+    target_col = "class" if "class" in df.columns else "income"
 
-    # -------------------------------------------------------------------------
-    # STEP 3: Validation
-    # -------------------------------------------------------------------------
-    logger.info("[Step 3/7] Validating schema, ranges, and null policy...")
-    validation_report = validate_dataset(df)
-    validation_path = os.path.join(results_dir, "validation_report.json")
-    save_validation_report(validation_report, validation_path)
+    report = {
+        "row_count": len(df),
+        "column_count": len(df.columns),
+        "range_checks": {},
+        "missing_counts": {},
+        "violations": []
+    }
 
-    # -------------------------------------------------------------------------
-    # STEP 4: Leakage-free Train/Test Split & Cleaning
-    # -------------------------------------------------------------------------
-    logger.info("[Step 4/7] Splitting train/test 70/30 stratified before cleaning...")
-    train_df, test_df = split_data(df, target_col="income", test_size=0.30, random_state=42)
-    logger.info("Initial split: Train=%d rows, Test=%d rows", len(train_df), len(test_df))
+    # Range checks for numeric columns
+    for col, (min_val, max_val) in NUMERIC_RANGES.items():
+        series = pd.to_numeric(df[col], errors="coerce")
+        out_of_bounds = ((series < min_val) | (series > max_val)).sum()
+        report["range_checks"][col] = {
+            "min_allowed": min_val,
+            "max_allowed": max_val,
+            "violations": int(out_of_bounds)
+        }
+        if out_of_bounds > 0:
+            report["violations"].append(f"{col}: {out_of_bounds} values out of bounds")
+
+    # Missing value checks ('?' or NaN means missing)
+    for col in df.columns:
+        series = df[col]
+        nan_count = int(series.isna().sum())
+        qmark_count = 0
+        if pd.api.types.is_object_dtype(series) or isinstance(series.dtype, pd.CategoricalDtype):
+            qmark_count = int((series.astype(str).str.strip() == "?").sum())
+        total_missing = nan_count + qmark_count
+        if total_missing > 0:
+            report["missing_counts"][col] = total_missing
+
+    logger.info("Validation completed. Missing columns: %s", list(report["missing_counts"].keys()))
+    return report
+
+
+# -----------------------------------------------------------------------------
+# 3. Transformer Class (Leakage-free)
+# -----------------------------------------------------------------------------
+class AdultPreprocessor(BaseEstimator, TransformerMixin):
+    """Fitted on train only: imputes, clips outliers, adds derived features, encodes."""
+
+    def __init__(self, include_derived: bool = True):
+        self.include_derived = include_derived
+        self.cat_modes_ = {}
+        self.num_medians_ = {}
+        self.percentiles_ = {}
+        self.scaler_ = StandardScaler()
+        self.encoder_ = OneHotEncoder(handle_unknown="ignore", sparse_output=False)
+
+    def fit(self, X: pd.DataFrame, y=None):
+        """Fit all statistics strictly on training set."""
+        df = X.copy()
+
+        # Categorical modes on train only
+        for col in CATEGORICAL_COLS:
+            if col in df.columns:
+                cleaned = df[col].astype(str).str.strip().replace("?", np.nan)
+                self.cat_modes_[col] = cleaned.dropna().mode()[0]
+
+        # Numeric medians and 1st/99th percentiles on train only
+        for col in NUMERIC_COLS:
+            if col in df.columns:
+                series = pd.to_numeric(df[col], errors="coerce")
+                med = float(series.median())
+                self.num_medians_[col] = med
+                filled = series.fillna(med)
+                q01 = float(filled.quantile(0.01))
+                q99 = float(filled.quantile(0.99))
+                self.percentiles_[col] = (q01, q99)
+
+        # Fit derived feature percentiles on train if enabled
+        clean_df = self.clean_dataframe(df)
+        active_nums = list(NUMERIC_COLS)
+        if self.include_derived:
+            active_nums += ["capital_net", "hours_per_age"]
+            for d_col in ["capital_net", "hours_per_age"]:
+                q01 = float(clean_df[d_col].quantile(0.01))
+                q99 = float(clean_df[d_col].quantile(0.99))
+                self.percentiles_[d_col] = (q01, q99)
+                clean_df[d_col] = clean_df[d_col].clip(lower=q01, upper=q99)
+
+        # Fit scaler and one-hot encoder on train
+        self.scaler_.fit(clean_df[active_nums])
+        self.encoder_.fit(clean_df[CATEGORICAL_COLS])
+        return self
+
+    def clean_dataframe(self, X: pd.DataFrame) -> pd.DataFrame:
+        """Apply imputation, clipping, and derived features using fitted train stats."""
+        df = X.copy()
+
+        # Impute categoricals with train mode
+        for col in CATEGORICAL_COLS:
+            if col in df.columns:
+                cleaned = df[col].astype(str).str.strip().replace("?", np.nan)
+                df[col] = cleaned.fillna(self.cat_modes_[col])
+
+        # Impute and clip numerics with train medians and percentiles
+        for col in NUMERIC_COLS:
+            if col in df.columns:
+                series = pd.to_numeric(df[col], errors="coerce").fillna(self.num_medians_[col])
+                q01, q99 = self.percentiles_[col]
+                df[col] = series.clip(lower=q01, upper=q99)
+
+        # Add derived features
+        if self.include_derived:
+            # capital_net = capital-gain - capital-loss
+            df["capital_net"] = df["capital-gain"] - df["capital-loss"]
+            # hours_per_age = hours-per-week / (age - 16)
+            denom = (df["age"] - 16).clip(lower=1)
+            df["hours_per_age"] = df["hours-per-week"] / denom
+            for d_col in ["capital_net", "hours_per_age"]:
+                if d_col in self.percentiles_:
+                    q01, q99 = self.percentiles_[d_col]
+                    df[d_col] = df[d_col].clip(lower=q01, upper=q99)
+
+        return df
+
+    def transform(self, X: pd.DataFrame) -> np.ndarray:
+        """Transform into encoded and scaled array."""
+        clean_df = self.clean_dataframe(X)
+        active_nums = list(NUMERIC_COLS)
+        if self.include_derived:
+            active_nums += ["capital_net", "hours_per_age"]
+
+        num_part = self.scaler_.transform(clean_df[active_nums])
+        cat_part = self.encoder_.transform(clean_df[CATEGORICAL_COLS])
+        return np.hstack([num_part, cat_part])
+
+
+# -----------------------------------------------------------------------------
+# 4. Label Quality Audits
+# -----------------------------------------------------------------------------
+def audit_labels(df: pd.DataFrame, target_col: str = "income") -> dict:
+    """Find duplicate feature rows with conflicting income labels, and check 50 rows."""
+    logger.info("Step 4: Running label quality audit...")
+    features = [c for c in df.columns if c != target_col]
+
+    # Duplicate conflict audit
+    dup_mask = df.duplicated(subset=features, keep=False)
+    conflicts = df[dup_mask].groupby(features, observed=True).filter(lambda g: g[target_col].nunique() > 1)
+    distinct_patterns = len(conflicts.drop_duplicates(subset=features))
+    total_conflicting_rows = len(conflicts)
+
+    # 50 random rows check against data dictionary
+    sample_50 = df.sample(n=50, random_state=42)
+    impossible_rows = 0
+    for _, row in sample_50.iterrows():
+        if row["age"] < 17 or row["age"] > 90:
+            impossible_rows += 1
+        if row["hours-per-week"] < 1 or row["hours-per-week"] > 99:
+            impossible_rows += 1
+
+    return {
+        "distinct_conflicting_patterns": int(distinct_patterns),
+        "total_conflicting_rows": int(total_conflicting_rows),
+        "sample_50_impossible_count": int(impossible_rows)
+    }
+
+
+# -----------------------------------------------------------------------------
+# 5. Main Pipeline Execution
+# -----------------------------------------------------------------------------
+def run_pipeline():
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    logger.info("==================================================")
+    logger.info("STARTING DATA PIPELINE RUN")
+    logger.info("==================================================")
+
+    # 1. Ingestion
+    raw_df = ingest_data()
+    target_col = "income"
+    df = raw_df.rename(columns={"class": target_col}) if "class" in raw_df.columns else raw_df.copy()
+
+    # 2. Validation
+    val_report = validate_data(df)
+    val_path = os.path.join(RESULTS_DIR, "validation_report.json")
+    with open(val_path, "w", encoding="utf-8") as f:
+        json.dump(val_report, f, indent=2)
+
+    # 3. Stratified 70/30 split before cleaning
+    logger.info("Step 3: Stratified 70/30 train/test split before cleaning...")
+    train_df, test_df = train_test_split(
+        df, test_size=0.30, stratify=df[target_col], random_state=42
+    )
 
     # Drop exact duplicates from train only (keep test untouched)
-    train_clean, dropped_dups = drop_train_duplicates(train_df)
-    logger.info("Dropped %d exact duplicate rows from train only (new train count: %d)", dropped_dups, len(train_clean))
-    logger.info("Test set kept untouched: %d rows", len(test_df))
+    train_clean = train_df.drop_duplicates().copy()
+    dropped_dups = len(train_df) - len(train_clean)
+    logger.info("Dropped %d duplicate rows from train only. Test rows preserved: %d", dropped_dups, len(test_df))
 
-    # Fit preprocessor on train only
-    logger.info("Fitting transformer on train set only...")
+    # Fit preprocessor on train only and save
     preprocessor = AdultPreprocessor(include_derived=True)
     preprocessor.fit(train_clean)
+    prep_path = os.path.join(RESULTS_DIR, "preprocessor.joblib")
+    joblib.dump(preprocessor, prep_path)
+    logger.info("Saved fitted preprocessor to %s", prep_path)
 
-    # Save fitted preprocessor
-    preprocessor_path = os.path.join(results_dir, "preprocessor.joblib")
-    save_preprocessor(preprocessor, preprocessor_path)
-    logger.info("Saved fitted preprocessor to: %s", preprocessor_path)
+    # Save cleaned processed datasets
+    train_proc = preprocessor.clean_dataframe(train_clean)
+    test_proc = preprocessor.clean_dataframe(test_df)
+    train_csv = os.path.join(RESULTS_DIR, "train_processed.csv")
+    test_csv = os.path.join(RESULTS_DIR, "test_processed.csv")
+    train_proc.to_csv(train_csv, index=False)
+    test_proc.to_csv(test_csv, index=False)
 
-    # Clean and transform DataFrames for export
-    train_processed_df = preprocessor.transform_to_df(train_clean)
-    train_processed_df["income"] = train_clean["income"]
+    # 4. Feature Engineering & Logistic Regression Baseline Evaluation
+    logger.info("Step 5: Testing Logistic Regression with & without derived features...")
+    y_train = (train_clean[target_col] == ">50K").astype(int)
+    y_test = (test_df[target_col] == ">50K").astype(int)
 
-    test_processed_df = preprocessor.transform_to_df(test_df)
-    test_processed_df["income"] = test_df["income"]
+    # Without derived
+    prep_base = AdultPreprocessor(include_derived=False)
+    prep_base.fit(train_clean)
+    X_train_base = prep_base.transform(train_clean)
+    X_test_base = prep_base.transform(test_df)
+    clf_base = LogisticRegression(max_iter=1000, random_state=42)
+    clf_base.fit(X_train_base, y_train)
+    preds_base = clf_base.predict(X_test_base)
+    acc_base = float(accuracy_score(y_test, preds_base))
+    f1_base = float(f1_score(y_test, preds_base))
 
-    train_csv_path = os.path.join(results_dir, "train_processed.csv")
-    test_csv_path = os.path.join(results_dir, "test_processed.csv")
-    train_processed_df.to_csv(train_csv_path, index=False)
-    test_processed_df.to_csv(test_csv_path, index=False)
-    logger.info("Saved processed train set (%d rows) and test set (%d rows)", len(train_processed_df), len(test_processed_df))
+    # With derived (capital_net, hours_per_age)
+    X_train_eng = preprocessor.transform(train_clean)
+    X_test_eng = preprocessor.transform(test_df)
+    clf_eng = LogisticRegression(max_iter=1000, random_state=42)
+    clf_eng.fit(X_train_eng, y_train)
+    preds_eng = clf_eng.predict(X_test_eng)
+    acc_eng = float(accuracy_score(y_test, preds_eng))
+    f1_eng = float(f1_score(y_test, preds_eng))
 
-    # -------------------------------------------------------------------------
-    # STEP 5: Feature Engineering & Baseline Logistic Regression Evaluation
-    # -------------------------------------------------------------------------
-    logger.info("[Step 5/7] Evaluating LogisticRegression baselines (with and without derived features)...")
-    metrics = evaluate_baselines(train_clean, test_df, target_col="income", random_state=42)
-    metrics_path = os.path.join(results_dir, "metrics.json")
-    save_metrics(metrics, metrics_path)
+    logger.info("Without derived: Accuracy=%.4f, F1=%.4f", acc_base, f1_base)
+    logger.info("With derived:    Accuracy=%.4f, F1=%.4f", acc_eng, f1_eng)
 
-    logger.info("Baseline without derived: Accuracy=%.4f, F1(binary)=%.4f, F1(macro)=%.4f",
-                metrics["without_derived_features"]["accuracy"],
-                metrics["without_derived_features"]["f1_binary"],
-                metrics["without_derived_features"]["f1_macro"])
-    logger.info("Baseline WITH derived:    Accuracy=%.4f, F1(binary)=%.4f, F1(macro)=%.4f",
-                metrics["with_derived_features"]["accuracy"],
-                metrics["with_derived_features"]["f1_binary"],
-                metrics["with_derived_features"]["f1_macro"])
-    logger.info("Gain from derived features: Delta Accuracy=%+.4f, Delta F1(binary)=%+.4f",
-                metrics["delta"]["accuracy_gain"],
-                metrics["delta"]["f1_binary_gain"])
+    # Save metrics
+    metrics = {
+        "without_derived": {"accuracy": round(acc_base, 4), "f1": round(f1_base, 4)},
+        "with_derived": {"accuracy": round(acc_eng, 4), "f1": round(f1_eng, 4)},
+        "delta": {"accuracy_gain": round(acc_eng - acc_base, 4), "f1_gain": round(f1_eng - f1_base, 4)}
+    }
+    with open(os.path.join(RESULTS_DIR, "metrics.json"), "w", encoding="utf-8") as f:
+        json.dump(metrics, f, indent=2)
 
-    # -------------------------------------------------------------------------
-    # STEP 6: Label-Quality Check
-    # -------------------------------------------------------------------------
-    logger.info("[Step 6/7] Performing label quality audits...")
-    # Duplicate-conflict audit
-    conflicts_df, conflicts_summary = audit_duplicate_conflicts(df, target_col="income")
-    conflicts_path = os.path.join(results_dir, "duplicate_conflicts.csv")
-    conflicts_df.to_csv(conflicts_path, index=False)
-    logger.info("Duplicate-conflict audit: %d rows with conflicting income labels saved to %s",
-                len(conflicts_df), conflicts_path)
+    # 5. Label Quality Audit
+    label_audit = audit_labels(df, target_col=target_col)
+    logger.info("Label audit: %d conflicting feature groups across %d rows",
+                label_audit["distinct_conflicting_patterns"], label_audit["total_conflicting_rows"])
 
-    # 50-row random sample manual check
-    sample_50_df, sample_50_summary = audit_50_row_sample(df, sample_size=50, random_state=42, target_col="income")
-    sample_50_path = os.path.join(results_dir, "sample_50_check.csv")
-    sample_50_df.to_csv(sample_50_path, index=False)
-    logger.info("50-row manual audit saved to: %s", sample_50_path)
+    # 6. SHA256 Hashes & Config YAML
+    def file_sha256(path):
+        h = hashlib.sha256()
+        with open(path, "rb") as fh:
+            while chunk := fh.read(65536):
+                h.update(chunk)
+        return h.hexdigest()
 
-    # -------------------------------------------------------------------------
-    # STEP 7: SHA256 Hashes and Config YAML
-    # -------------------------------------------------------------------------
-    logger.info("[Step 7/7] Computing SHA256 hashes and storing configuration...")
-    sha256_hashes = {
-        "train_processed_csv": compute_sha256(train_csv_path),
-        "test_processed_csv": compute_sha256(test_csv_path),
-        "preprocessor_joblib": compute_sha256(preprocessor_path),
-        "validation_report_json": compute_sha256(validation_path),
-        "metrics_json": compute_sha256(metrics_path),
-        "duplicate_conflicts_csv": compute_sha256(conflicts_path),
-        "sample_50_check_csv": compute_sha256(sample_50_path),
+    hashes = {
+        "train_processed_csv": file_sha256(train_csv),
+        "test_processed_csv": file_sha256(test_csv),
+        "preprocessor_joblib": file_sha256(prep_path),
+        "validation_report_json": file_sha256(val_path),
     }
 
-    # Save hashes text file
-    hashes_txt_path = os.path.join(results_dir, "processed_hashes.txt")
-    with open(hashes_txt_path, "w", encoding="utf-8") as f:
-        for fname, hval in sha256_hashes.items():
-            f.write(f"{hval}  {fname}\n")
-    logger.info("Saved hashes to: %s", hashes_txt_path)
-
-    # Construct complete config YAML
-    config_dict = {
-        "pipeline_metadata": {
-            "name": "Lab 4 Data Pipeline and Quality",
-            "author": "Student",
-            "dataset": "UCI Adult (OpenML name='adult', version=2)",
-            "random_seed": 42,
+    config = {
+        "dataset": {"name": "adult", "version": 2, "rows": len(raw_df), "cols": len(raw_df.columns)},
+        "split": {"train_ratio": 0.70, "test_ratio": 0.30, "stratified": True, "seed": 42},
+        "cleaning": {
+            "dropped_train_duplicates": dropped_dups,
+            "categorical_imputer": "mode (fitted on train only)",
+            "numeric_imputer": "median (fitted on train only)",
+            "outlier_clipping": "1st/99th percentiles (fitted on train only)"
         },
-        "raw_data": {
-            "source": "OpenML",
-            "name": "adult",
-            "version": 2,
-            "row_count": row_count,
-            "column_count": col_count,
-            "target_column": "income",
-            "positive_label": ">50K",
-            "negative_label": "<=50K",
-        },
-        "validation_schema": {
-            "numeric_ranges": {
-                "age": [17, 90],
-                "hours_per_week": [1, 99],
-                "capital_gain": [0, 99999],
-                "capital_loss": [0, 4356],
-            },
-            "null_policy": "Question mark '?' or NaN denotes missing value; missing values are imputed, not silently dropped",
-        },
-        "split_and_cleaning": {
-            "train_ratio": 0.70,
-            "test_ratio": 0.30,
-            "stratified": True,
-            "initial_train_rows": len(train_df),
-            "test_rows": len(test_df),
-            "train_duplicates_dropped": dropped_dups,
-            "final_train_rows": len(train_clean),
-            "imputation": {
-                "categorical_strategy": "mode (fitted on train only)",
-                "numerical_strategy": "median (fitted on train only)",
-            },
-            "outlier_clipping": {
-                "lower_quantile": 0.01,
-                "upper_quantile": 0.99,
-                "computed_on": "train set only",
-            },
-        },
-        "feature_engineering": {
-            "derived_features": [
-                {
-                    "name": "capital_net",
-                    "formula": "capital-gain - capital-loss",
-                    "description": "Net capital gain or loss from investments",
-                },
-                {
-                    "name": "hours_per_age",
-                    "formula": "hours-per-week / (age - 16)",
-                    "description": "Weekly working hours scaled by years elapsed since minimum legal working age (16)",
-                },
-            ]
-        },
-        "baseline_evaluation": metrics,
-        "label_quality_audit": {
-            "conflicting_feature_patterns": conflicts_summary["distinct_conflicting_feature_patterns"],
-            "conflicting_total_rows": conflicts_summary["total_conflicting_rows"],
-            "sample_50_impossible_values": sample_50_summary["rows_with_impossible_values"],
-        },
-        "sha256_checksums": sha256_hashes,
+        "derived_features": ["capital_net", "hours_per_age"],
+        "evaluation": metrics,
+        "label_audit": label_audit,
+        "sha256_checksums": hashes
     }
 
-    # Store config YAML in results/ and in lab04 root
-    results_yaml_path = os.path.join(results_dir, "config.yaml")
-    root_yaml_path = os.path.join(base_dir, "config.yaml")
+    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
+        yaml.dump(config, f, default_flow_style=False, sort_keys=False)
 
-    with open(results_yaml_path, "w", encoding="utf-8") as f:
-        yaml.dump(config_dict, f, default_flow_style=False, sort_keys=False)
-    with open(root_yaml_path, "w", encoding="utf-8") as f:
-        yaml.dump(config_dict, f, default_flow_style=False, sort_keys=False)
-
-    logger.info("Saved configuration YAML to: %s and %s", results_yaml_path, root_yaml_path)
-    logger.info("================================================================")
-    logger.info("PIPELINE EXECUTION COMPLETED SUCCESSFULLY!")
-    logger.info("================================================================")
-
-    return config_dict
+    logger.info("Config and hashes saved to %s", CONFIG_PATH)
+    logger.info("==================================================")
+    logger.info("PIPELINE COMPLETED SUCCESSFULLY!")
+    logger.info("==================================================")
 
 
 if __name__ == "__main__":

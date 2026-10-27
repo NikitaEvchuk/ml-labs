@@ -23,7 +23,7 @@ The goal of this engineering pipeline is to construct a robust, production-grade
 
 ## 2. Ingestion and Raw Data Integrity
 
-The ingestion module ([ingestion.py](file:///c:/Users/nikit/Documents/repo/lab04/src/ingestion.py)) accesses the OpenML repository directly and loads the dataset as an unmodified pandas DataFrame:
+The ingestion step in [`lab04/src/pipeline.py`](file:///c:/Users/nikit/Documents/repo/lab04/src/pipeline.py) accesses OpenML directly and loads the dataset as an unmodified pandas DataFrame:
 - **Raw Row Count**: 48,842 instances.
 - **Raw Column Count**: 15 columns (14 features + 1 target).
 - **Integrity Policy**: The raw ingestion step performs zero in-place transformations, column renaming, or filtering, logging raw shape metrics and validating dimensional fidelity against the expected reference shape `(48842, 15)`.
@@ -32,7 +32,7 @@ The ingestion module ([ingestion.py](file:///c:/Users/nikit/Documents/repo/lab04
 
 ## 3. Schema, Range, and Quality Validation
 
-The validation step ([validation.py](file:///c:/Users/nikit/Documents/repo/lab04/src/validation.py)) verifies incoming data against explicit schema specifications. Violations are logged and compiled into [validation_report.json](file:///c:/Users/nikit/Documents/repo/lab04/results/validation_report.json) without dropping any rows.
+The validation step in [`lab04/src/pipeline.py`](file:///c:/Users/nikit/Documents/repo/lab04/src/pipeline.py) verifies incoming data against explicit schema specifications. Violations are logged and compiled into [`validation_report.json`](file:///c:/Users/nikit/Documents/repo/lab04/results/validation_report.json) without dropping any rows.
 
 ### Schema and Range Specification
 | Column Name | Expected Type | Allowed Range / Domain | Observed Range / Unique | Validation Status | Missing Values (%) |
@@ -62,7 +62,7 @@ The validation step ([validation.py](file:///c:/Users/nikit/Documents/repo/lab04
 
 ## 4. Leakage-Free Cleaning and Transformation Pipeline
 
-To ensure the pipeline is leak-free, all data processing steps strictly follow the separation of training and testing phases ([transformation.py](file:///c:/Users/nikit/Documents/repo/lab04/src/transformation.py)):
+To ensure the pipeline is leak-free, all data processing steps strictly follow the separation of training and testing phases:
 
 1. **Stratified Train/Test Split**:
    - Performed **prior to any cleaning or parameter calculation**.
@@ -83,7 +83,7 @@ To ensure the pipeline is leak-free, all data processing steps strictly follow t
      - `hours-per-week`: [8.0, 80.0]
 5. **Transformer Serialization**:
    - The fitted `AdultPreprocessor` object encapsulates all learned statistics, clipping boundaries, `StandardScaler`, and `OneHotEncoder`.
-   - Serialized to [results/preprocessor.joblib](file:///c:/Users/nikit/Documents/repo/lab04/results/preprocessor.joblib) via `joblib.dump`.
+   - Serialized to [`results/preprocessor.joblib`](file:///c:/Users/nikit/Documents/repo/lab04/results/preprocessor.joblib) via `joblib.dump`.
 
 ---
 
@@ -98,11 +98,11 @@ Two domain-specific features were engineered to capture non-linear financial and
 ### Baseline Model: Logistic Regression Performance
 Both configurations were trained with standard L2 regularization (`LogisticRegression(max_iter=1000, random_state=42)`):
 
-| Model Configuration | Feature Count | Test Accuracy | Positive F1 ($>50\text{K}$) | Macro F1 | Train Time (s) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Baseline (Without Derived Features)** | 108 | 0.8559 | 0.6658 | 0.7870 | 0.380 |
-| **Enhanced (With Derived Features)** | 110 | **0.8589** | **0.6721** | **0.7911** | **0.360** |
-| **Observed Gain ($\Delta$)** | **+2** | **+0.0030 (+0.30%)** | **+0.0063 (+0.63%)** | **+0.0041** | -0.020 |
+| Model Configuration | Feature Count | Test Accuracy | Positive F1 ($>50\text{K}$) | Macro F1 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Baseline (Without Derived Features)** | 108 | 0.8559 | 0.6658 | 0.7870 |
+| **Enhanced (With Derived Features)** | 110 | **0.8589** | **0.6721** | **0.7911** |
+| **Observed Gain ($\Delta$)** | **+2** | **+0.0030 (+0.30%)** | **+0.0063 (+0.63%)** | **+0.0041** |
 
 ### Key Insight
 Engineering `capital_net` and `hours_per_age` provides direct linear representations of economic surplus and career effort density. In a linear model like Logistic Regression, these derived features reduce the burden of learning interactions implicitly, yielding immediate, consistent improvements in both overall accuracy and minority-class F1 score.
@@ -111,24 +111,23 @@ Engineering `capital_net` and `hours_per_age` provides direct linear representat
 
 ## 6. Label-Quality and Conflict Audit
 
-The audit module ([label_quality.py](file:///c:/Users/nikit/Documents/repo/lab04/src/label_quality.py)) performed both systematic duplicate-conflict auditing and random sample inspection.
-
 ### 1. Duplicate-Conflict Audit
 An audit was performed across all 14 input features to locate duplicate rows with conflicting income labels:
 - **Rows sharing identical 14-feature tuples**: 111 instances.
 - **Distinct conflicting feature patterns**: **5 distinct feature tuples**.
 - **Total conflicting rows**: **10 rows** (5 pairs where individuals share identical demographic and occupational attributes but one is labeled $\le \$50\text{K}$ while the other is labeled $> \$50\text{K}$).
-- All 10 conflicting rows are archived in [results/duplicate_conflicts.csv](file:///c:/Users/nikit/Documents/repo/lab04/results/duplicate_conflicts.csv).
 
-**Example Conflict Pair**:
-Two individuals with identical demographics: 46 years old, Private sector, `HS-grad` (education-num 9), Married-civ-spouse, `Craft-repair`, Husband, White, Male, capital-gain 0, capital-loss 0, 40 hours/week, United States:
-- Index 1781: `income = <=50K`
-- Index 32964: `income = >50K`
+**Conflicting Rows Detail**:
+1. (Age 46, Private, HS-grad, Married-civ-spouse, Craft-repair, Husband): Row 1781 (`<=50K`) vs Row 32964 (`>50K`)
+2. (Age 34, Private, Masters, Married-civ-spouse, Exec-managerial, Not-in-family): Row 2373 (`>50K`) vs Row 45787 (`<=50K`)
+3. (Age 41, Private, HS-grad, Married-civ-spouse, Transport-moving, Husband): Row 11692 (`<=50K`) vs Row 16161 (`>50K`)
+4. (Age 46, Private, HS-grad, Married-civ-spouse, Transport-moving, Husband): Row 15802 (`>50K`) vs Row 27210 (`<=50K`)
+5. (Age 39, Private, Bachelors, Married-civ-spouse, Craft-repair, Husband): Row 17129 (`<=50K`) vs Row 39042 (`>50K`)
 
 **Significance**: Duplicate feature conflicts define a non-zero **Bayes error rate** (label ambiguity) in the dataset: no machine learning algorithm relying purely on these 14 features can ever achieve 100% accuracy on these samples.
 
 ### 2. 50-Row Manual Re-check Against Data Dictionary
-A random sample of 50 instances (`random_state=42`) was drawn and audited against the official UCI data dictionary ([sample_50_check.csv](file:///c:/Users/nikit/Documents/repo/lab04/results/sample_50_check.csv)):
+A random sample of 50 instances (`random_state=42`) was drawn and audited against the official UCI data dictionary:
 - **Impossible or Out-of-Range Values**: **0 instances found**.
 - **Education vs Education-num Alignment**: 100% concordant (e.g., all `HS-grad` match `education-num=9`, `Bachelors` match `13`, `Masters` match `14`).
 - **Marital Status vs Relationship Consistency**: 100% semantically consistent (all instances with `Husband` or `Wife` correspond to `Married-civ-spouse` or `Married-AF-spouse`).
@@ -139,21 +138,18 @@ A random sample of 50 instances (`random_state=42`) was drawn and audited agains
 ## 7. Artifact Integrity and Reproducibility
 
 ### Cryptographic Hashes (SHA-256)
-All generated artifacts are hashed and recorded in [results/config.yaml](file:///c:/Users/nikit/Documents/repo/lab04/results/config.yaml) and [results/processed_hashes.txt](file:///c:/Users/nikit/Documents/repo/lab04/results/processed_hashes.txt):
+All generated artifacts are hashed and recorded in [`config.yaml`](file:///c:/Users/nikit/Documents/repo/lab04/config.yaml):
 
 | Artifact File | Description | SHA-256 Checksum |
 | :--- | :--- | :--- |
 | `train_processed.csv` | Cleaned training dataset | `6029a8c6ff9c1721edf7289ab027097b1743ffa46ad598a97bb561cec0315e97` |
 | `test_processed.csv` | Cleaned test dataset (untouched) | `f5fb9e6b1e70cdbaddbff1050b664fc989e887d355ca737ea07fd11409473c30` |
-| `preprocessor.joblib` | Serialized transformer | `4b47bb052b5dc83a95c798a50debe7377d68fc42e5e3efa1d711639df42ed9ed` |
-| `validation_report.json` | Complete validation report | `fbfc6f01981d72802d4b8a1d1a6d134fbed9b69e4a125214f1080d4692c1b456` |
-| `metrics.json` | Baseline evaluation metrics | `ba0740e4e3d2679c4bdfcbd793fc33ff921cd8603b34e53bd1a77a1e2e3bf171` |
-| `duplicate_conflicts.csv`| Label conflict audit log | `5fce68568fb8da48a980a72b044e7d86a360a4211b88e31a6ba846fd84fa3a8d` |
-| `sample_50_check.csv` | 50-row manual audit log | `aeba4adc0535da94720c5f2dd00bdd2736b925cb0028686f41bd61ccced3f3df` |
+| `preprocessor.joblib` | Serialized transformer | `89b4cd10096188e203e59adebe20b8b28888366b645be645818a1c599e1e60ac` |
+| `validation_report.json` | Complete validation report | `24534d733bdb13d695d30107f651892717fe96ff86281cd3f4d17ee20c7f4e08` |
 
 ### One-Command Pipeline Execution
 The pipeline can be executed end-to-end with a single command from the project root:
 ```bash
 python lab04/src/pipeline.py
 ```
-This automatically verifies raw data ingestion, executes schema validation, cleans the data without leakage, fits and saves the transformer, computes baseline evaluation metrics, conducts label audits, and regenerates configuration YAML files and SHA-256 signatures.
+This automatically verifies raw data ingestion, executes schema validation, cleans the data without leakage, fits and saves the transformer, computes baseline evaluation metrics, conducts label audits, and regenerates configuration YAML and SHA-256 signatures.

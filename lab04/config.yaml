@@ -1,83 +1,37 @@
-pipeline_metadata:
-  name: Lab 4 Data Pipeline and Quality
-  author: Student
-  dataset: UCI Adult (OpenML name='adult', version=2)
-  random_seed: 42
-raw_data:
-  source: OpenML
+dataset:
   name: adult
   version: 2
-  row_count: 48842
-  column_count: 15
-  target_column: income
-  positive_label: '>50K'
-  negative_label: <=50K
-validation_schema:
-  numeric_ranges:
-    age:
-    - 17
-    - 90
-    hours_per_week:
-    - 1
-    - 99
-    capital_gain:
-    - 0
-    - 99999
-    capital_loss:
-    - 0
-    - 4356
-  null_policy: Question mark '?' or NaN denotes missing value; missing values are
-    imputed, not silently dropped
-split_and_cleaning:
+  rows: 48842
+  cols: 15
+split:
   train_ratio: 0.7
   test_ratio: 0.3
   stratified: true
-  initial_train_rows: 34189
-  test_rows: 14653
-  train_duplicates_dropped: 24
-  final_train_rows: 34165
-  imputation:
-    categorical_strategy: mode (fitted on train only)
-    numerical_strategy: median (fitted on train only)
-  outlier_clipping:
-    lower_quantile: 0.01
-    upper_quantile: 0.99
-    computed_on: train set only
-feature_engineering:
-  derived_features:
-  - name: capital_net
-    formula: capital-gain - capital-loss
-    description: Net capital gain or loss from investments
-  - name: hours_per_age
-    formula: hours-per-week / (age - 16)
-    description: Weekly working hours scaled by years elapsed since minimum legal
-      working age (16)
-baseline_evaluation:
-  without_derived_features:
+  seed: 42
+cleaning:
+  dropped_train_duplicates: 24
+  categorical_imputer: mode (fitted on train only)
+  numeric_imputer: median (fitted on train only)
+  outlier_clipping: 1st/99th percentiles (fitted on train only)
+derived_features:
+- capital_net
+- hours_per_age
+evaluation:
+  without_derived:
     accuracy: 0.8559
-    f1_binary: 0.6658
-    f1_macro: 0.787
-    features_count: 108
-    train_time_sec: 0.335
-  with_derived_features:
+    f1: 0.6658
+  with_derived:
     accuracy: 0.8589
-    f1_binary: 0.6721
-    f1_macro: 0.7911
-    features_count: 110
-    train_time_sec: 0.366
+    f1: 0.6721
   delta:
     accuracy_gain: 0.003
-    f1_binary_gain: 0.0062
-    f1_macro_gain: 0.0041
-label_quality_audit:
-  conflicting_feature_patterns: 5
-  conflicting_total_rows: 10
-  sample_50_impossible_values: 0
+    f1_gain: 0.0062
+label_audit:
+  distinct_conflicting_patterns: 5
+  total_conflicting_rows: 10
+  sample_50_impossible_count: 0
 sha256_checksums:
   train_processed_csv: 6029a8c6ff9c1721edf7289ab027097b1743ffa46ad598a97bb561cec0315e97
   test_processed_csv: f5fb9e6b1e70cdbaddbff1050b664fc989e887d355ca737ea07fd11409473c30
-  preprocessor_joblib: 4b47bb052b5dc83a95c798a50debe7377d68fc42e5e3efa1d711639df42ed9ed
-  validation_report_json: fbfc6f01981d72802d4b8a1d1a6d134fbed9b69e4a125214f1080d4692c1b456
-  metrics_json: 1d5dfddaf0636d721ad24873b801898daf66b86bb5c5abbb300471003ff2367e
-  duplicate_conflicts_csv: 5fce68568fb8da48a980a72b044e7d86a360a4211b88e31a6ba846fd84fa3a8d
-  sample_50_check_csv: aeba4adc0535da94720c5f2dd00bdd2736b925cb0028686f41bd61ccced3f3df
+  preprocessor_joblib: 89b4cd10096188e203e59adebe20b8b28888366b645be645818a1c599e1e60ac
+  validation_report_json: 24534d733bdb13d695d30107f651892717fe96ff86281cd3f4d17ee20c7f4e08

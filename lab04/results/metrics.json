@@ -1,21 +1,14 @@
 {
-  "without_derived_features": {
+  "without_derived": {
     "accuracy": 0.8559,
-    "f1_binary": 0.6658,
-    "f1_macro": 0.787,
-    "features_count": 108,
-    "train_time_sec": 0.335
+    "f1": 0.6658
   },
-  "with_derived_features": {
+  "with_derived": {
     "accuracy": 0.8589,
-    "f1_binary": 0.6721,
-    "f1_macro": 0.7911,
-    "features_count": 110,
-    "train_time_sec": 0.366
+    "f1": 0.6721
   },
   "delta": {
     "accuracy_gain": 0.003,
-    "f1_binary_gain": 0.0062,
-    "f1_macro_gain": 0.0041
+    "f1_gain": 0.0062
   }
 }
