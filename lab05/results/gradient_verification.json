@@ -1,0 +1,39 @@
+{
+  "forward_custom": 51.03515625,
+  "forward_pytorch": 51.03515625,
+  "max_diff_pytorch": 0.0,
+  "max_diff_numerical": 6.358777682180516e-08,
+  "max_diff_scalar": 0.0,
+  "vector_grads": {
+    "a_custom": [
+      -1.25,
+      -42.0,
+      1.71875
+    ],
+    "a_pytorch": [
+      -1.25,
+      -42.0,
+      1.71875
+    ],
+    "b_custom": [
+      3.75,
+      28.0,
+      1.03125
+    ],
+    "b_pytorch": [
+      3.75,
+      28.0,
+      1.03125
+    ],
+    "c_custom": [
+      2.5,
+      -14.0,
+      1.375
+    ],
+    "c_pytorch": [
+      2.5,
+      -14.0,
+      1.375
+    ]
+  }
+}

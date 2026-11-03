@@ -1,0 +1,24 @@
+{
+  "graph_inspection": "graph(%self.1 : __torch__.TorchTinyMLP,\n      %x : Float(100, 2, strides=[2, 1], requires_grad=0, device=cpu)):\n  %sigmoid : __torch__.torch.nn.modules.activation.Sigmoid = prim::GetAttr[name=\"sigmoid\"](%self.1)\n  %fc2 : __torch__.torch.nn.modules.linear.___torch_mangle_0.Linear = prim::GetAttr[name=\"fc2\"](%self.1)\n  %relu : __torch__.torch.nn.modules.activation.ReLU = prim::GetAttr[name=\"relu\"](%self.1)\n  %fc1 : __torch__.torch.nn.modules.linear.Linear = prim::GetAttr[name=\"fc1\"](%self.1)\n  %40 : Tensor = prim::CallMethod[name=\"forward\"](%fc1, %x)\n  %41 : Tensor = prim::CallMethod[name=\"forward\"](%relu, %40)\n  %42 : Tensor = prim::CallMethod[name=\"forward\"](%fc2, %41)\n  %43 : Tensor = prim::CallMethod[name=\"forward\"](%sigmoid, %42)\n  return (%43)\n",
+  "eager_median_ms": 0.06399999983841553,
+  "traced_median_ms": 0.05190000229049474,
+  "scripted_median_ms": 0.03979999746661633,
+  "compiled_median_ms": null,
+  "compile_supported": false,
+  "contiguity": {
+    "contiguous_stride": [
+      2048,
+      1
+    ],
+    "contiguous_is_contiguous": true,
+    "non_contiguous_stride": [
+      1,
+      2048
+    ],
+    "non_contiguous_is_contiguous": false,
+    "contiguous_op_ms": 1.1878500081365928,
+    "non_contiguous_op_ms": 1.9782499948632903,
+    "made_contiguous_op_ms": 1.1695499997586012,
+    "slowdown_factor": 1.6654038652292606
+  }
+}
