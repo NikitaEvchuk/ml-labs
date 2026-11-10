@@ -1,0 +1,57 @@
+[
+  {
+    "batch_size": 32,
+    "avg_throughput_samples_s": 2306.01,
+    "peak_rss_mb": 431.93,
+    "delta_rss_mb": 10.83,
+    "step_tensor_mem_mb": 31.844,
+    "final_val_acc": 0.9014,
+    "test_acc": 0.9033,
+    "total_time_s": 119.88,
+    "mlflow_run_id": "86007079fa75473fbc561d3fc355a1c3"
+  },
+  {
+    "batch_size": 64,
+    "avg_throughput_samples_s": 2644.13,
+    "peak_rss_mb": 441.04,
+    "delta_rss_mb": 4.05,
+    "step_tensor_mem_mb": 62.671,
+    "final_val_acc": 0.9048,
+    "test_acc": 0.9016,
+    "total_time_s": 104.07,
+    "mlflow_run_id": "fd13da0a3d5b4f9885182df64bd1f7a5"
+  },
+  {
+    "batch_size": 128,
+    "avg_throughput_samples_s": 2868.66,
+    "peak_rss_mb": 465.97,
+    "delta_rss_mb": 4.68,
+    "step_tensor_mem_mb": 124.326,
+    "final_val_acc": 0.8972,
+    "test_acc": 0.8921,
+    "total_time_s": 95.87,
+    "mlflow_run_id": "5f6c93195b8844a78a6901e2e7423ffd"
+  },
+  {
+    "batch_size": 256,
+    "avg_throughput_samples_s": 2920.87,
+    "peak_rss_mb": 494.23,
+    "delta_rss_mb": 2.94,
+    "step_tensor_mem_mb": 247.636,
+    "final_val_acc": 0.8928,
+    "test_acc": 0.8881,
+    "total_time_s": 94.47,
+    "mlflow_run_id": "73c7f84fd15d4ca9bcd08441db313db8"
+  },
+  {
+    "batch_size": 512,
+    "avg_throughput_samples_s": 3130.46,
+    "peak_rss_mb": 540.66,
+    "delta_rss_mb": 2.87,
+    "step_tensor_mem_mb": 494.255,
+    "final_val_acc": 0.8814,
+    "test_acc": 0.8779,
+    "total_time_s": 88.09,
+    "mlflow_run_id": "d24306ee85784ce9ac7ebf19216206cf"
+  }
+]

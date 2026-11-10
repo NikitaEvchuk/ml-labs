@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/nikit/Documents/repo/lab06/mlruns/449261141259928275/65d654cad437488ba68ff6994d10419a/artifacts
+end_time: 1794330848512
+entry_point_name: ''
+experiment_id: '449261141259928275'
+lifecycle_stage: active
+run_id: 65d654cad437488ba68ff6994d10419a
+run_name: baseline_cnn
+run_uuid: 65d654cad437488ba68ff6994d10419a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1794330741854
+status: 3
+tags: []
+user_id: nikit

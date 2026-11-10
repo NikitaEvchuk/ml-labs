@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/nikit/Documents/repo/lab06/mlruns/449261141259928275/67dde2bdbca84e8ab907be3efba0ebbe/artifacts
+end_time: 1794330266396
+entry_point_name: ''
+experiment_id: '449261141259928275'
+lifecycle_stage: active
+run_id: 67dde2bdbca84e8ab907be3efba0ebbe
+run_name: task5_sgd_steplr
+run_uuid: 67dde2bdbca84e8ab907be3efba0ebbe
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1794330060703
+status: 3
+tags: []
+user_id: nikit

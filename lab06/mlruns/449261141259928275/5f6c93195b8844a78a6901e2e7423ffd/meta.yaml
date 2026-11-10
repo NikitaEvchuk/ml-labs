@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/nikit/Documents/repo/lab06/mlruns/449261141259928275/5f6c93195b8844a78a6901e2e7423ffd/artifacts
+end_time: 1794328546340
+entry_point_name: ''
+experiment_id: '449261141259928275'
+lifecycle_stage: active
+run_id: 5f6c93195b8844a78a6901e2e7423ffd
+run_name: task4_bs_128
+run_uuid: 5f6c93195b8844a78a6901e2e7423ffd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1794328441451
+status: 3
+tags: []
+user_id: nikit

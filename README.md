@@ -8,4 +8,5 @@ System benchmarks for Machine Learning Systems.
 - `lab03/`: Model architectures (MLP, CNN, Transformer) and efficiency benchmarking on FashionMNIST.
 - `lab04/`: Data pipeline and quality (UCI Adult, schema validation, leakage-free transformation, feature engineering, data card).
 - `lab05/`: Frameworks and automatic differentiation (scalar autograd engine, topological backprop, PyTorch autograd verification, eager vs traced/compiled execution, tensor contiguity benchmark).
+- `lab06/`: YAML-driven CNN training pipeline, MLflow tracking, PyTorch profiling, DataLoader worker/batch-size/LR/optimizer/gradient-accumulation/resume studies, and individual project proposal.
 - `requirements.txt`: Pinned dependencies for reproducible runs.

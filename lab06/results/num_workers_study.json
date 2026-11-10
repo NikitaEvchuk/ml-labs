@@ -1,0 +1,52 @@
+[
+  {
+    "num_workers": 0,
+    "epoch_time_s": 17.4787,
+    "data_time_s": 10.248,
+    "compute_time_s": 7.1869,
+    "data_share_pct": 58.63,
+    "throughput_samples_s": 3146.69,
+    "peak_rss_mb": 448.75,
+    "mlflow_run_id": "75ffe2183d1c4cf8a3ffa163159aee92"
+  },
+  {
+    "num_workers": 1,
+    "epoch_time_s": 19.2831,
+    "data_time_s": 2.7924,
+    "compute_time_s": 8.5161,
+    "data_share_pct": 14.48,
+    "throughput_samples_s": 2852.23,
+    "peak_rss_mb": 494.02,
+    "mlflow_run_id": "66fc5a305323403b97ae9a8885c14e40"
+  },
+  {
+    "num_workers": 2,
+    "epoch_time_s": 26.5296,
+    "data_time_s": 0.316,
+    "compute_time_s": 8.8136,
+    "data_share_pct": 1.19,
+    "throughput_samples_s": 2073.16,
+    "peak_rss_mb": 489.82,
+    "mlflow_run_id": "1cb7c5339eb749ee9c05b05bf86653ea"
+  },
+  {
+    "num_workers": 4,
+    "epoch_time_s": 46.7584,
+    "data_time_s": 0.2918,
+    "compute_time_s": 7.781,
+    "data_share_pct": 0.62,
+    "throughput_samples_s": 1176.26,
+    "peak_rss_mb": 467.04,
+    "mlflow_run_id": "b9f31c56445c4a32ad1cf429031f4673"
+  },
+  {
+    "num_workers": 8,
+    "epoch_time_s": 60.7044,
+    "data_time_s": 0.2693,
+    "compute_time_s": 7.6827,
+    "data_share_pct": 0.44,
+    "throughput_samples_s": 906.03,
+    "peak_rss_mb": 468.51,
+    "mlflow_run_id": "a11a76c104344941b5fa35d9542ca05a"
+  }
+]

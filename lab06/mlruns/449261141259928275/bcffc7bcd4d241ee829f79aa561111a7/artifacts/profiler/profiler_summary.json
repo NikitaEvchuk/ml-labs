@@ -1,0 +1,90 @@
+{
+  "phase_time_ms": {
+    "data_loading": 18362.928,
+    "forward_pass": 3570.823,
+    "backward_pass": 3445.387,
+    "optimizer_step": 809.567
+  },
+  "phase_share_pct": {
+    "data_loading": 70.12,
+    "forward_pass": 13.63,
+    "backward_pass": 13.16,
+    "optimizer_step": 3.09
+  },
+  "total_profiled_step_ms": 26188.705,
+  "top_ops": [
+    {
+      "name": "enumerate(DataLoader)#_SingleProcessDataLoaderIter.__next__",
+      "self_cpu_time_ms": 11326.042,
+      "cpu_time_total_ms": 18348.238,
+      "count": 430
+    },
+    {
+      "name": "aten::max_pool2d_with_indices",
+      "self_cpu_time_ms": 2032.168,
+      "cpu_time_total_ms": 2032.168,
+      "count": 860
+    },
+    {
+      "name": "aten::convolution_backward",
+      "self_cpu_time_ms": 1489.168,
+      "cpu_time_total_ms": 1503.745,
+      "count": 860
+    },
+    {
+      "name": "aten::threshold_backward",
+      "self_cpu_time_ms": 1134.624,
+      "cpu_time_total_ms": 1134.624,
+      "count": 860
+    },
+    {
+      "name": "aten::_to_copy",
+      "self_cpu_time_ms": 1056.961,
+      "cpu_time_total_ms": 1780.898,
+      "count": 176610
+    },
+    {
+      "name": "aten::mkldnn_convolution",
+      "self_cpu_time_ms": 888.766,
+      "cpu_time_total_ms": 899.427,
+      "count": 860
+    },
+    {
+      "name": "aten::copy_",
+      "self_cpu_time_ms": 659.67,
+      "cpu_time_total_ms": 659.67,
+      "count": 287040
+    },
+    {
+      "name": "aten::div",
+      "self_cpu_time_ms": 653.372,
+      "cpu_time_total_ms": 1241.176,
+      "count": 58440
+    },
+    {
+      "name": "aten::select",
+      "self_cpu_time_ms": 583.695,
+      "cpu_time_total_ms": 641.817,
+      "count": 110000
+    },
+    {
+      "name": "aten::eq",
+      "self_cpu_time_ms": 494.612,
+      "cpu_time_total_ms": 1035.686,
+      "count": 55430
+    },
+    {
+      "name": "aten::any",
+      "self_cpu_time_ms": 474.366,
+      "cpu_time_total_ms": 722.817,
+      "count": 55000
+    },
+    {
+      "name": "aten::to",
+      "self_cpu_time_ms": 461.821,
+      "cpu_time_total_ms": 2142.586,
+      "count": 398336
+    }
+  ],
+  "table": "-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  \n                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg       CPU Mem  Self CPU Mem    # of Calls  \n-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  \nenumerate(DataLoader)#_SingleProcessDataLoaderIter._...        43.14%       11.326s        69.89%       18.348s      42.670ms     164.91 Mb    -507.71 Mb           430  \n                          aten::max_pool2d_with_indices         7.74%        2.032s         7.74%        2.032s       2.363ms       2.89 Gb       2.89 Gb           860  \n                             aten::convolution_backward         5.67%        1.489s         5.73%        1.504s       1.749ms     665.83 Mb       1.72 Mb           860  \n                               aten::threshold_backward         4.32%        1.135s         4.32%        1.135s       1.319ms       3.86 Gb       3.86 Gb           860  \n                                         aten::_to_copy         4.03%        1.057s         6.78%        1.781s      10.084us     165.37 Mb       1.42 Mb        176610  \n                               aten::mkldnn_convolution         3.39%     888.766ms         3.43%     899.427ms       1.046ms       3.86 Gb           0 b           860  \n                                            aten::copy_         2.51%     659.670ms         2.51%     659.670ms       2.298us           0 b           0 b        287040  \n                                              aten::div         2.49%     653.372ms         4.73%        1.241s      21.238us     198.12 Mb     197.88 Mb         58440  \n                                           aten::select         2.22%     583.695ms         2.44%     641.817ms       5.835us           0 b           0 b        110000  \n                                               aten::eq         1.88%     494.612ms         3.95%        1.036s      18.685us     158.94 Kb     -68.73 Kb         55430  \n                                              aten::any         1.81%     474.366ms         2.75%     722.817ms      13.142us      53.71 Kb      53.71 Kb         55000  \n                                               aten::to         1.76%     461.821ms         8.16%        2.143s       5.379us     165.37 Mb      12.86 Mb        398336  \n                                    aten::empty_strided         1.36%     357.043ms         1.36%     357.043ms       1.539us     326.85 Mb     326.85 Mb        232052  \n                                             aten::view         1.36%     356.768ms         1.36%     356.768ms       1.609us           0 b           0 b        221720  \n                                          aten::permute         1.29%     339.141ms         1.41%     371.164ms       6.748us           0 b           0 b         55000  \n                                            aten::clone         1.20%     315.543ms         1.85%     486.704ms       8.849us     164.49 Mb       1.75 Mb         55000  \n                                             aten::sub_         1.05%     276.949ms         1.05%     276.949ms       5.035us           0 b           0 b         55000  \n                                        aten::clamp_min         0.99%     260.513ms         0.99%     260.513ms     302.922us       3.86 Gb       3.86 Gb           860  \n                                             aten::item         0.88%     232.150ms         0.92%     242.618ms       2.139us          -3 b          -3 b        113441  \n                               Optimizer.step#Adam.step         0.87%     227.743ms         2.29%     602.016ms       1.400ms     160.10 Kb     -67.22 Mb           430  \n-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  \nSelf CPU time total: 26.252s\n"
+}

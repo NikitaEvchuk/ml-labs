@@ -1,0 +1,45 @@
+seed: 42
+data:
+  dataset: FashionMNIST
+  root: lab03/src/data
+  download: true
+  train_size: 55000
+  val_size: 5000
+  batch_size: 128
+  num_workers: 2
+  pin_memory: false
+model:
+  name: CNN
+  num_classes: 10
+training:
+  epochs: 1
+  grad_accum_steps: 1
+  resume_from: null
+  interrupt_after_epoch: null
+  evaluate_test: false
+optimizer:
+  name: adam
+  lr: 0.001
+  momentum: 0.9
+  weight_decay: 0.0
+scheduler:
+  name: none
+  step_size: 3
+  gamma: 0.5
+  T_max: 10
+  eta_min: 1.0e-05
+  factor: 0.5
+  patience: 2
+checkpoint:
+  dir: lab06/results/checkpoints
+  save_best: true
+  save_last: true
+mlflow:
+  enabled: true
+  tracking_uri: lab06/mlruns
+  experiment_name: lab06_fashionmnist_cnn
+  run_name: task3_num_workers_2
+profiling:
+  enabled: false
+  export_trace: false
+  trace_path: lab06/results/profiler_trace.json

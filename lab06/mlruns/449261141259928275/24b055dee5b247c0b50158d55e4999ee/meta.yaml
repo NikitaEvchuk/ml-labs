@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/nikit/Documents/repo/lab06/mlruns/449261141259928275/24b055dee5b247c0b50158d55e4999ee/artifacts
+end_time: 1794330060515
+entry_point_name: ''
+experiment_id: '449261141259928275'
+lifecycle_stage: active
+run_id: 24b055dee5b247c0b50158d55e4999ee
+run_name: task5_adam_reducelronplateau
+run_uuid: 24b055dee5b247c0b50158d55e4999ee
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1794329849975
+status: 3
+tags: []
+user_id: nikit
