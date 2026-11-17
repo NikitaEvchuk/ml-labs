@@ -4,3 +4,4 @@ __pycache__/
 *.joblib
 .idea/
 lab06/results/checkpoints/
+lab07/results/checkpoints/

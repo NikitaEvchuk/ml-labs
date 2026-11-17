@@ -1,0 +1,1064 @@
+{
+  "unstructured": {
+    "global": [
+      {
+        "mode": "global",
+        "target_sparsity": 0.0,
+        "target_sparsity_pct": 0.0,
+        "zeroshot": {
+          "val_loss": 0.22361643619537352,
+          "val_acc": 91.94,
+          "test_loss": 0.23201555161476134,
+          "test_acc": 91.69,
+          "total_params": 1008586,
+          "nonzero_weights": 1007704,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 0.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 6516352.0,
+          "layer_sparsity_pct": {
+            "features.0": 0.0,
+            "features.3": 0.0,
+            "features.6": 0.0,
+            "classifier.1": 0.0,
+            "classifier.3": 0.0
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.22361643619537352,
+          "val_acc": 91.94,
+          "test_loss": 0.23201555161476134,
+          "test_acc": 91.69,
+          "total_params": 1008586,
+          "nonzero_weights": 1007704,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 0.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 6516352.0,
+          "layer_sparsity_pct": {
+            "features.0": 0.0,
+            "features.3": 0.0,
+            "features.6": 0.0,
+            "classifier.1": 0.0,
+            "classifier.3": 0.0
+          }
+        },
+        "finetune_history": [],
+        "checkpoint_path": "lab07\\results\\checkpoints\\baseline_oversized_best.pt"
+      },
+      {
+        "mode": "global",
+        "target_sparsity": 0.25,
+        "target_sparsity_pct": 25.0,
+        "zeroshot": {
+          "val_loss": 0.22361643619537352,
+          "val_acc": 91.94,
+          "test_loss": 0.23201555161476134,
+          "test_acc": 91.69,
+          "total_params": 1008586,
+          "nonzero_weights": 755778,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 25.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 4887264.0,
+          "layer_sparsity_pct": {
+            "features.0": 0.0,
+            "features.3": 0.0,
+            "features.6": 0.4730902777777778,
+            "classifier.1": 27.217881944444443,
+            "classifier.3": 11.859375
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.23239185168743134,
+          "val_acc": 91.68,
+          "test_loss": 0.24416840744018556,
+          "test_acc": 91.13,
+          "total_params": 1008586,
+          "nonzero_weights": 755778,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 25.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 4887264.0,
+          "layer_sparsity_pct": {
+            "features.0": 0.0,
+            "features.3": 0.0,
+            "features.6": 0.4730902777777778,
+            "classifier.1": 27.217881944444443,
+            "classifier.3": 11.859375
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.1583593873500824,
+            "train_acc": 94.27454545454546,
+            "val_loss": 0.25330704588890074,
+            "val_acc": 91.02
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.14768727338422427,
+            "train_acc": 94.63636363636364,
+            "val_loss": 0.23180244452953339,
+            "val_acc": 91.76
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.1406320957248861,
+            "train_acc": 94.92727272727272,
+            "val_loss": 0.23239185168743134,
+            "val_acc": 91.68
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_global_25.pt"
+      },
+      {
+        "mode": "global",
+        "target_sparsity": 0.5,
+        "target_sparsity_pct": 50.0,
+        "zeroshot": {
+          "val_loss": 0.22383547914028168,
+          "val_acc": 91.94,
+          "test_loss": 0.2322512020111084,
+          "test_acc": 91.7,
+          "total_params": 1008586,
+          "nonzero_weights": 503852,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 50.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 3258176.0,
+          "layer_sparsity_pct": {
+            "features.0": 0.46296296296296297,
+            "features.3": 5.777391975308642,
+            "features.6": 12.941261574074074,
+            "classifier.1": 53.40635850694444,
+            "classifier.3": 33.03125
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.2229252123117447,
+          "val_acc": 91.9,
+          "test_loss": 0.23644554595947265,
+          "test_acc": 91.43,
+          "total_params": 1008586,
+          "nonzero_weights": 503852,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 50.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 3258176.0,
+          "layer_sparsity_pct": {
+            "features.0": 0.46296296296296297,
+            "features.3": 5.777391975308642,
+            "features.6": 12.941261574074074,
+            "classifier.1": 53.40635850694444,
+            "classifier.3": 33.03125
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.15477784922014584,
+            "train_acc": 94.38181818181818,
+            "val_loss": 0.22385062313079834,
+            "val_acc": 91.74
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.14732583355470139,
+            "train_acc": 94.63272727272727,
+            "val_loss": 0.22666579747200014,
+            "val_acc": 91.84
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.1397254112915559,
+            "train_acc": 94.93454545454546,
+            "val_loss": 0.2229252123117447,
+            "val_acc": 91.9
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_global_50.pt"
+      },
+      {
+        "mode": "global",
+        "target_sparsity": 0.75,
+        "target_sparsity_pct": 75.0,
+        "zeroshot": {
+          "val_loss": 0.22898065595626832,
+          "val_acc": 91.58,
+          "test_loss": 0.23534940128326415,
+          "test_acc": 91.56,
+          "total_params": 1008586,
+          "nonzero_weights": 251926,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 75.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 1629088.0,
+          "layer_sparsity_pct": {
+            "features.0": 2.314814814814815,
+            "features.3": 24.27662037037037,
+            "features.6": 38.55758101851852,
+            "classifier.1": 78.45941840277777,
+            "classifier.3": 55.046875
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.23048671431541443,
+          "val_acc": 91.66,
+          "test_loss": 0.23838944354057312,
+          "test_acc": 91.62,
+          "total_params": 1008586,
+          "nonzero_weights": 251926,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 75.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 1629088.0,
+          "layer_sparsity_pct": {
+            "features.0": 2.314814814814815,
+            "features.3": 24.27662037037037,
+            "features.6": 38.55758101851852,
+            "classifier.1": 78.45941840277777,
+            "classifier.3": 55.046875
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.15577400116270237,
+            "train_acc": 94.37454545454545,
+            "val_loss": 0.22115502479076385,
+            "val_acc": 91.76
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.14561941918243063,
+            "train_acc": 94.82909090909091,
+            "val_loss": 0.22390709671974182,
+            "val_acc": 92.14
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.1394953341289,
+            "train_acc": 94.97272727272727,
+            "val_loss": 0.23048671431541443,
+            "val_acc": 91.66
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_global_75.pt"
+      },
+      {
+        "mode": "global",
+        "target_sparsity": 0.9,
+        "target_sparsity_pct": 90.0,
+        "zeroshot": {
+          "val_loss": 0.4234294216156006,
+          "val_acc": 88.72,
+          "test_loss": 0.42895221695899965,
+          "test_acc": 88.48,
+          "total_params": 1008586,
+          "nonzero_weights": 100770,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 90.0000396941959,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 651632.6133864709,
+          "layer_sparsity_pct": {
+            "features.0": 4.62962962962963,
+            "features.3": 41.77276234567901,
+            "features.6": 61.145833333333336,
+            "classifier.1": 92.86328125,
+            "classifier.3": 70.328125
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.22510129034519197,
+          "val_acc": 91.88,
+          "test_loss": 0.23473048510551453,
+          "test_acc": 91.54,
+          "total_params": 1008586,
+          "nonzero_weights": 100770,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 90.0000396941959,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 651632.6133864709,
+          "layer_sparsity_pct": {
+            "features.0": 4.62962962962963,
+            "features.3": 41.77276234567901,
+            "features.6": 61.145833333333336,
+            "classifier.1": 92.86328125,
+            "classifier.3": 70.328125
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.18546152449737896,
+            "train_acc": 93.62727272727273,
+            "val_loss": 0.23194033253192903,
+            "val_acc": 91.56
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.16443606133244254,
+            "train_acc": 94.09636363636363,
+            "val_loss": 0.22320482544898987,
+            "val_acc": 91.8
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.15515705563155088,
+            "train_acc": 94.52,
+            "val_loss": 0.22510129034519197,
+            "val_acc": 91.88
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_global_90.pt"
+      },
+      {
+        "mode": "global",
+        "target_sparsity": 0.95,
+        "target_sparsity_pct": 95.0,
+        "zeroshot": {
+          "val_loss": 1.1700691452026368,
+          "val_acc": 74.5,
+          "test_loss": 1.1761973666191101,
+          "test_acc": 73.91,
+          "total_params": 1008586,
+          "nonzero_weights": 50385,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 95.00001984709796,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 325816.3066932351,
+          "layer_sparsity_pct": {
+            "features.0": 6.481481481481482,
+            "features.3": 53.7037037037037,
+            "features.6": 74.4675925925926,
+            "classifier.1": 97.12879774305556,
+            "classifier.3": 80.09375
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.24063585224151612,
+          "val_acc": 91.38,
+          "test_loss": 0.2486993997812271,
+          "test_acc": 90.79,
+          "total_params": 1008586,
+          "nonzero_weights": 50385,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 95.00001984709796,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 325816.3066932351,
+          "layer_sparsity_pct": {
+            "features.0": 6.481481481481482,
+            "features.3": 53.7037037037037,
+            "features.6": 74.4675925925926,
+            "classifier.1": 97.12879774305556,
+            "classifier.3": 80.09375
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.3130933767123656,
+            "train_acc": 90.91272727272727,
+            "val_loss": 0.2634110886096954,
+            "val_acc": 90.42
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.2053032092961398,
+            "train_acc": 92.64,
+            "val_loss": 0.24551680924892424,
+            "val_acc": 91.36
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.19064047298214654,
+            "train_acc": 93.17454545454545,
+            "val_loss": 0.24063585224151612,
+            "val_acc": 91.38
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_global_95.pt"
+      }
+    ],
+    "layerwise": [
+      {
+        "mode": "layerwise",
+        "target_sparsity": 0.0,
+        "target_sparsity_pct": 0.0,
+        "zeroshot": {
+          "val_loss": 0.22361643619537352,
+          "val_acc": 91.94,
+          "test_loss": 0.23201555161476134,
+          "test_acc": 91.69,
+          "total_params": 1008586,
+          "nonzero_weights": 1007704,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 0.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 6516352.0,
+          "layer_sparsity_pct": {
+            "features.0": 0.0,
+            "features.3": 0.0,
+            "features.6": 0.0,
+            "classifier.1": 0.0,
+            "classifier.3": 0.0
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.22361643619537352,
+          "val_acc": 91.94,
+          "test_loss": 0.23201555161476134,
+          "test_acc": 91.69,
+          "total_params": 1008586,
+          "nonzero_weights": 1007704,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 0.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 6516352.0,
+          "layer_sparsity_pct": {
+            "features.0": 0.0,
+            "features.3": 0.0,
+            "features.6": 0.0,
+            "classifier.1": 0.0,
+            "classifier.3": 0.0
+          }
+        },
+        "finetune_history": [],
+        "checkpoint_path": "lab07\\results\\checkpoints\\baseline_oversized_best.pt"
+      },
+      {
+        "mode": "layerwise",
+        "target_sparsity": 0.25,
+        "target_sparsity_pct": 25.0,
+        "zeroshot": {
+          "val_loss": 0.22248612127304077,
+          "val_acc": 91.78,
+          "test_loss": 0.23429176058769227,
+          "test_acc": 91.47,
+          "total_params": 1008586,
+          "nonzero_weights": 755778,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 25.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 4887264.0,
+          "layer_sparsity_pct": {
+            "features.0": 25.0,
+            "features.3": 25.0,
+            "features.6": 25.0,
+            "classifier.1": 25.0,
+            "classifier.3": 25.0
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.21833482058048248,
+          "val_acc": 92.1,
+          "test_loss": 0.23484209756851196,
+          "test_acc": 91.78,
+          "total_params": 1008586,
+          "nonzero_weights": 755778,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 25.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 4887264.0,
+          "layer_sparsity_pct": {
+            "features.0": 25.0,
+            "features.3": 25.0,
+            "features.6": 25.0,
+            "classifier.1": 25.0,
+            "classifier.3": 25.0
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.15881371251453053,
+            "train_acc": 94.20181818181818,
+            "val_loss": 0.2275263480901718,
+            "val_acc": 91.76
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.14739931527701292,
+            "train_acc": 94.68363636363637,
+            "val_loss": 0.22363113524913789,
+            "val_acc": 91.88
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.14065638421448795,
+            "train_acc": 94.90363636363637,
+            "val_loss": 0.21833482058048248,
+            "val_acc": 92.1
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_layerwise_25.pt"
+      },
+      {
+        "mode": "layerwise",
+        "target_sparsity": 0.5,
+        "target_sparsity_pct": 50.0,
+        "zeroshot": {
+          "val_loss": 0.25507886517047884,
+          "val_acc": 90.38,
+          "test_loss": 0.2603395044803619,
+          "test_acc": 90.42,
+          "total_params": 1008586,
+          "nonzero_weights": 503852,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 50.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 3258176.0,
+          "layer_sparsity_pct": {
+            "features.0": 50.0,
+            "features.3": 50.0,
+            "features.6": 50.0,
+            "classifier.1": 50.0,
+            "classifier.3": 50.0
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.23099223878383637,
+          "val_acc": 92.0,
+          "test_loss": 0.24452468614578246,
+          "test_acc": 91.28,
+          "total_params": 1008586,
+          "nonzero_weights": 503852,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 50.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 3258176.0,
+          "layer_sparsity_pct": {
+            "features.0": 50.0,
+            "features.3": 50.0,
+            "features.6": 50.0,
+            "classifier.1": 50.0,
+            "classifier.3": 50.0
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.17117524498592723,
+            "train_acc": 93.78727272727272,
+            "val_loss": 0.23656720716953278,
+            "val_acc": 91.24
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.1571849988731471,
+            "train_acc": 94.3490909090909,
+            "val_loss": 0.2244545732975006,
+            "val_acc": 91.76
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.1495439279751344,
+            "train_acc": 94.64727272727272,
+            "val_loss": 0.23099223878383637,
+            "val_acc": 92.0
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_layerwise_50.pt"
+      },
+      {
+        "mode": "layerwise",
+        "target_sparsity": 0.75,
+        "target_sparsity_pct": 75.0,
+        "zeroshot": {
+          "val_loss": 1.18446881275177,
+          "val_acc": 57.7,
+          "test_loss": 1.1641553137779237,
+          "test_acc": 58.93,
+          "total_params": 1008586,
+          "nonzero_weights": 251926,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 75.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 1629088.0,
+          "layer_sparsity_pct": {
+            "features.0": 75.0,
+            "features.3": 75.0,
+            "features.6": 75.0,
+            "classifier.1": 75.0,
+            "classifier.3": 75.0
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.25584933540821075,
+          "val_acc": 90.82,
+          "test_loss": 0.2569180712223053,
+          "test_acc": 90.68,
+          "total_params": 1008586,
+          "nonzero_weights": 251926,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 75.0,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 1629088.0,
+          "layer_sparsity_pct": {
+            "features.0": 75.0,
+            "features.3": 75.0,
+            "features.6": 75.0,
+            "classifier.1": 75.0,
+            "classifier.3": 75.0
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.3165252492016012,
+            "train_acc": 89.30363636363636,
+            "val_loss": 0.28822551259994506,
+            "val_acc": 89.38
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.227709345405752,
+            "train_acc": 91.7909090909091,
+            "val_loss": 0.26302222986221313,
+            "val_acc": 90.36
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.20776513271765276,
+            "train_acc": 92.44181818181818,
+            "val_loss": 0.25584933540821075,
+            "val_acc": 90.82
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_layerwise_75.pt"
+      },
+      {
+        "mode": "layerwise",
+        "target_sparsity": 0.9,
+        "target_sparsity_pct": 90.0,
+        "zeroshot": {
+          "val_loss": 2.1273121070861816,
+          "val_acc": 23.58,
+          "test_loss": 2.1267927085876464,
+          "test_acc": 24.84,
+          "total_params": 1008586,
+          "nonzero_weights": 100771,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 89.99994045870613,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 651639.079920294,
+          "layer_sparsity_pct": {
+            "features.0": 89.81481481481481,
+            "features.3": 89.99807098765432,
+            "features.6": 90.0,
+            "classifier.1": 90.0,
+            "classifier.3": 90.0
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.3667403799057007,
+          "val_acc": 86.94,
+          "test_loss": 0.3685048644542694,
+          "test_acc": 86.72,
+          "total_params": 1008586,
+          "nonzero_weights": 100771,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 89.99994045870613,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 651639.079920294,
+          "layer_sparsity_pct": {
+            "features.0": 89.81481481481481,
+            "features.3": 89.99807098765432,
+            "features.6": 90.0,
+            "classifier.1": 90.0,
+            "classifier.3": 90.0
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 0.9125586329026656,
+            "train_acc": 75.44909090909091,
+            "val_loss": 0.500970957326889,
+            "val_acc": 82.64
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.4302474284995686,
+            "train_acc": 84.70727272727272,
+            "val_loss": 0.4067254379749298,
+            "val_acc": 85.28
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.3657570408257571,
+            "train_acc": 86.94,
+            "val_loss": 0.3667403799057007,
+            "val_acc": 86.94
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_layerwise_90.pt"
+      },
+      {
+        "mode": "layerwise",
+        "target_sparsity": 0.95,
+        "target_sparsity_pct": 95.0,
+        "zeroshot": {
+          "val_loss": 2.2892151538848875,
+          "val_acc": 11.82,
+          "test_loss": 2.2902373725891114,
+          "test_acc": 11.61,
+          "total_params": 1008586,
+          "nonzero_weights": 50385,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 95.00001984709796,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 325816.3066932351,
+          "layer_sparsity_pct": {
+            "features.0": 94.9074074074074,
+            "features.3": 95.00385802469135,
+            "features.6": 95.0,
+            "classifier.1": 95.0,
+            "classifier.3": 95.0
+          }
+        },
+        "finetuned": {
+          "val_loss": 0.5257048475265503,
+          "val_acc": 81.34,
+          "test_loss": 0.5249364068984985,
+          "test_acc": 80.96,
+          "total_params": 1008586,
+          "nonzero_weights": 50385,
+          "total_prunable_weights": 1007704,
+          "weight_sparsity_pct": 95.00001984709796,
+          "structural_param_sparsity_pct": 0.0,
+          "dense_macs": 6516352.0,
+          "theoretical_nonzero_macs": 325816.3066932351,
+          "layer_sparsity_pct": {
+            "features.0": 94.9074074074074,
+            "features.3": 95.00385802469135,
+            "features.6": 95.0,
+            "classifier.1": 95.0,
+            "classifier.3": 95.0
+          }
+        },
+        "finetune_history": [
+          {
+            "epoch": 1,
+            "train_loss": 1.6671675810120323,
+            "train_acc": 60.56909090909091,
+            "val_loss": 0.854358226776123,
+            "val_acc": 74.28
+          },
+          {
+            "epoch": 2,
+            "train_loss": 0.6609196003393694,
+            "train_acc": 77.7309090909091,
+            "val_loss": 0.6043020883560181,
+            "val_acc": 78.78
+          },
+          {
+            "epoch": 3,
+            "train_loss": 0.53644394883676,
+            "train_acc": 80.73454545454545,
+            "val_loss": 0.5257048475265503,
+            "val_acc": 81.34
+          }
+        ],
+        "checkpoint_path": "lab07\\results\\checkpoints\\pruned_layerwise_95.pt"
+      }
+    ]
+  },
+  "structured": [
+    {
+      "filter_prune_ratio": 0.0,
+      "filter_prune_pct": 0.0,
+      "channels": [
+        24,
+        48,
+        160
+      ],
+      "zeroshot": {
+        "val_loss": 0.22361643619537352,
+        "val_acc": 91.94,
+        "test_loss": 0.23201555161476134,
+        "test_acc": 91.69,
+        "total_params": 1008586,
+        "nonzero_weights": 1007704,
+        "total_prunable_weights": 1007704,
+        "weight_sparsity_pct": 0.0,
+        "structural_param_sparsity_pct": 0.0,
+        "dense_macs": 6516352.0,
+        "theoretical_nonzero_macs": 6516352.0,
+        "layer_sparsity_pct": {
+          "features.0": 0.0,
+          "features.3": 0.0,
+          "features.6": 0.0,
+          "classifier.1": 0.0,
+          "classifier.3": 0.0
+        }
+      },
+      "finetuned": {
+        "val_loss": 0.22361643619537352,
+        "val_acc": 91.94,
+        "test_loss": 0.23201555161476134,
+        "test_acc": 91.69,
+        "total_params": 1008586,
+        "nonzero_weights": 1007704,
+        "total_prunable_weights": 1007704,
+        "weight_sparsity_pct": 0.0,
+        "structural_param_sparsity_pct": 0.0,
+        "dense_macs": 6516352.0,
+        "theoretical_nonzero_macs": 6516352.0,
+        "layer_sparsity_pct": {
+          "features.0": 0.0,
+          "features.3": 0.0,
+          "features.6": 0.0,
+          "classifier.1": 0.0,
+          "classifier.3": 0.0
+        }
+      },
+      "finetune_history": [],
+      "checkpoint_path": "lab07\\results\\checkpoints\\baseline_oversized_best.pt"
+    },
+    {
+      "filter_prune_ratio": 0.1,
+      "filter_prune_pct": 10.0,
+      "channels": [
+        22,
+        43,
+        144
+      ],
+      "zeroshot": {
+        "val_loss": 0.2612382262468338,
+        "val_acc": 90.54,
+        "test_loss": 0.2714495059967041,
+        "test_acc": 90.05,
+        "total_params": 901139,
+        "nonzero_weights": 900280,
+        "total_prunable_weights": 900280,
+        "weight_sparsity_pct": 0.0,
+        "structural_param_sparsity_pct": 10.653231355580983,
+        "dense_macs": 5390488.0,
+        "theoretical_nonzero_macs": 5390488.0,
+        "layer_sparsity_pct": {
+          "features.0": 0.0,
+          "features.3": 0.0,
+          "features.6": 0.0,
+          "classifier.1": 0.0,
+          "classifier.3": 0.0
+        }
+      },
+      "finetuned": {
+        "val_loss": 0.22666616055965425,
+        "val_acc": 91.96,
+        "test_loss": 0.23717491240501404,
+        "test_acc": 91.41,
+        "total_params": 901139,
+        "nonzero_weights": 900280,
+        "total_prunable_weights": 900280,
+        "weight_sparsity_pct": 0.0,
+        "structural_param_sparsity_pct": 10.653231355580983,
+        "dense_macs": 5390488.0,
+        "theoretical_nonzero_macs": 5390488.0,
+        "layer_sparsity_pct": {
+          "features.0": 0.0,
+          "features.3": 0.0,
+          "features.6": 0.0,
+          "classifier.1": 0.0,
+          "classifier.3": 0.0
+        }
+      },
+      "finetune_history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.16333867074142802,
+          "train_acc": 94.08545454545454,
+          "val_loss": 0.2287235066175461,
+          "val_acc": 91.56
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.15225852500308643,
+          "train_acc": 94.4290909090909,
+          "val_loss": 0.23316460995674132,
+          "val_acc": 91.18
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.1436669056415558,
+          "train_acc": 94.81090909090909,
+          "val_loss": 0.22666616055965425,
+          "val_acc": 91.96
+        }
+      ],
+      "checkpoint_path": "lab07\\results\\checkpoints\\pruned_structured_10.pt"
+    },
+    {
+      "filter_prune_ratio": 0.25,
+      "filter_prune_pct": 25.0,
+      "channels": [
+        18,
+        36,
+        120
+      ],
+      "zeroshot": {
+        "val_loss": 0.33188223791122434,
+        "val_acc": 87.52,
+        "test_loss": 0.34040461540222167,
+        "test_acc": 87.29,
+        "total_params": 743298,
+        "nonzero_weights": 742474,
+        "total_prunable_weights": 742474,
+        "weight_sparsity_pct": 0.0,
+        "structural_param_sparsity_pct": 26.302962761727812,
+        "dense_macs": 3872800.0,
+        "theoretical_nonzero_macs": 3872800.0,
+        "layer_sparsity_pct": {
+          "features.0": 0.0,
+          "features.3": 0.0,
+          "features.6": 0.0,
+          "classifier.1": 0.0,
+          "classifier.3": 0.0
+        }
+      },
+      "finetuned": {
+        "val_loss": 0.22634922564029694,
+        "val_acc": 91.74,
+        "test_loss": 0.23417352855205537,
+        "test_acc": 91.4,
+        "total_params": 743298,
+        "nonzero_weights": 742474,
+        "total_prunable_weights": 742474,
+        "weight_sparsity_pct": 0.0,
+        "structural_param_sparsity_pct": 26.302962761727812,
+        "dense_macs": 3872800.0,
+        "theoretical_nonzero_macs": 3872800.0,
+        "layer_sparsity_pct": {
+          "features.0": 0.0,
+          "features.3": 0.0,
+          "features.6": 0.0,
+          "classifier.1": 0.0,
+          "classifier.3": 0.0
+        }
+      },
+      "finetune_history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.18351259810707785,
+          "train_acc": 93.18181818181819,
+          "val_loss": 0.24283198385238647,
+          "val_acc": 90.86
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.1673626549287276,
+          "train_acc": 93.86363636363636,
+          "val_loss": 0.2275897131204605,
+          "val_acc": 91.68
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.15988202133937315,
+          "train_acc": 94.21636363636364,
+          "val_loss": 0.22634922564029694,
+          "val_acc": 91.74
+        }
+      ],
+      "checkpoint_path": "lab07\\results\\checkpoints\\pruned_structured_25.pt"
+    },
+    {
+      "filter_prune_ratio": 0.5,
+      "filter_prune_pct": 50.0,
+      "channels": [
+        12,
+        24,
+        80
+      ],
+      "zeroshot": {
+        "val_loss": 0.7778580750465393,
+        "val_acc": 78.48,
+        "test_loss": 0.7727209581375122,
+        "test_acc": 79.16,
+        "total_params": 487946,
+        "nonzero_weights": 487180,
+        "total_prunable_weights": 487180,
+        "weight_sparsity_pct": 0.0,
+        "structural_param_sparsity_pct": 51.62078394901377,
+        "dense_macs": 1906624.0,
+        "theoretical_nonzero_macs": 1906624.0,
+        "layer_sparsity_pct": {
+          "features.0": 0.0,
+          "features.3": 0.0,
+          "features.6": 0.0,
+          "classifier.1": 0.0,
+          "classifier.3": 0.0
+        }
+      },
+      "finetuned": {
+        "val_loss": 0.2483569308757782,
+        "val_acc": 90.74,
+        "test_loss": 0.253830575466156,
+        "test_acc": 90.84,
+        "total_params": 487946,
+        "nonzero_weights": 487180,
+        "total_prunable_weights": 487180,
+        "weight_sparsity_pct": 0.0,
+        "structural_param_sparsity_pct": 51.62078394901377,
+        "dense_macs": 1906624.0,
+        "theoretical_nonzero_macs": 1906624.0,
+        "layer_sparsity_pct": {
+          "features.0": 0.0,
+          "features.3": 0.0,
+          "features.6": 0.0,
+          "classifier.1": 0.0,
+          "classifier.3": 0.0
+        }
+      },
+      "finetune_history": [
+        {
+          "epoch": 1,
+          "train_loss": 0.2565971024166454,
+          "train_acc": 90.94545454545455,
+          "val_loss": 0.2680504114151001,
+          "val_acc": 90.06
+        },
+        {
+          "epoch": 2,
+          "train_loss": 0.2143450008457357,
+          "train_acc": 92.27636363636364,
+          "val_loss": 0.2509767427921295,
+          "val_acc": 90.68
+        },
+        {
+          "epoch": 3,
+          "train_loss": 0.20013560231382196,
+          "train_acc": 92.7309090909091,
+          "val_loss": 0.2483569308757782,
+          "val_acc": 90.74
+        }
+      ],
+      "checkpoint_path": "lab07\\results\\checkpoints\\pruned_structured_50.pt"
+    }
+  ]
+}

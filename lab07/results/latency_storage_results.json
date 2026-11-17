@@ -1,0 +1,393 @@
+{
+  "unstructured_bench": [
+    {
+      "label": "Unstructured Global 0%",
+      "target_sparsity_pct": 0.0,
+      "storage": {
+        "tag": "global_0",
+        "total_params": 1008586,
+        "nonzero_params": 1008586,
+        "weight_sparsity_pct": 0.0,
+        "dense_pt_bytes": 4038426,
+        "dense_gz_bytes": 3858875,
+        "sparse_csr_pt_bytes": 12109394,
+        "sparse_csr_npz_bytes": 8075764,
+        "sparse_csr_npz_compressed_bytes": 3895033,
+        "dense_pt_mb": 3.8513431549072266,
+        "sparse_csr_pt_mb": 11.548418045043945,
+        "sparse_csr_npz_mb": 7.701648712158203,
+        "sparse_csr_npz_compressed_mb": 3.714592933654785
+      },
+      "latency": {
+        "single_mean_ms": 0.7015450000380952,
+        "single_p50_ms": 0.6908999985171249,
+        "single_p95_ms": 0.8157099993695731,
+        "single_std_ms": 0.05237521421434687,
+        "batch_size": 128,
+        "batch_mean_ms": 22.67056500028654,
+        "batch_p50_ms": 23.086199997123913,
+        "batch_p95_ms": 24.316550002004078,
+        "batch_throughput_samples_s": 5646.087779390684
+      }
+    },
+    {
+      "label": "Unstructured Global 25%",
+      "target_sparsity_pct": 25.0,
+      "storage": {
+        "tag": "global_25",
+        "total_params": 1008586,
+        "nonzero_params": 756660,
+        "weight_sparsity_pct": 25.0,
+        "dense_pt_bytes": 4038440,
+        "dense_gz_bytes": 2996001,
+        "sparse_csr_pt_bytes": 9086186,
+        "sparse_csr_npz_bytes": 6060356,
+        "sparse_csr_npz_compressed_bytes": 2961827,
+        "dense_pt_mb": 3.8513565063476562,
+        "sparse_csr_pt_mb": 8.665262222290039,
+        "sparse_csr_npz_mb": 5.779605865478516,
+        "sparse_csr_npz_compressed_mb": 2.824618339538574
+      },
+      "latency": {
+        "single_mean_ms": 3.277695750057319,
+        "single_p50_ms": 0.8266999993793434,
+        "single_p95_ms": 20.159520002016503,
+        "single_std_ms": 6.967943672749251,
+        "batch_size": 128,
+        "batch_mean_ms": 21.08991833320033,
+        "batch_p50_ms": 20.915600000080303,
+        "batch_p95_ms": 21.997954998732894,
+        "batch_throughput_samples_s": 6069.250623815782
+      }
+    },
+    {
+      "label": "Unstructured Global 50%",
+      "target_sparsity_pct": 50.0,
+      "storage": {
+        "tag": "global_50",
+        "total_params": 1008586,
+        "nonzero_params": 504734,
+        "weight_sparsity_pct": 50.0,
+        "dense_pt_bytes": 4038440,
+        "dense_gz_bytes": 2125058,
+        "sparse_csr_pt_bytes": 6062890,
+        "sparse_csr_npz_bytes": 4044948,
+        "sparse_csr_npz_compressed_bytes": 2082187,
+        "dense_pt_mb": 3.8513565063476562,
+        "sparse_csr_pt_mb": 5.782022476196289,
+        "sparse_csr_npz_mb": 3.857563018798828,
+        "sparse_csr_npz_compressed_mb": 1.9857282638549805
+      },
+      "latency": {
+        "single_mean_ms": 0.6318737499805138,
+        "single_p50_ms": 0.6240999991860008,
+        "single_p95_ms": 0.6865050016131133,
+        "single_std_ms": 0.028738369546045587,
+        "batch_size": 128,
+        "batch_mean_ms": 22.967816666217306,
+        "batch_p50_ms": 22.998200001893565,
+        "batch_p95_ms": 23.91818500163936,
+        "batch_throughput_samples_s": 5573.015574800868
+      }
+    },
+    {
+      "label": "Unstructured Global 75%",
+      "target_sparsity_pct": 75.0,
+      "storage": {
+        "tag": "global_75",
+        "total_params": 1008586,
+        "nonzero_params": 252808,
+        "weight_sparsity_pct": 75.0,
+        "dense_pt_bytes": 4038440,
+        "dense_gz_bytes": 1281994,
+        "sparse_csr_pt_bytes": 3039786,
+        "sparse_csr_npz_bytes": 2029540,
+        "sparse_csr_npz_compressed_bytes": 1173188,
+        "dense_pt_mb": 3.8513565063476562,
+        "sparse_csr_pt_mb": 2.898965835571289,
+        "sparse_csr_npz_mb": 1.9355201721191406,
+        "sparse_csr_npz_compressed_mb": 1.1188392639160156
+      },
+      "latency": {
+        "single_mean_ms": 0.6375255001330515,
+        "single_p50_ms": 0.6234499996935483,
+        "single_p95_ms": 0.7527099993239968,
+        "single_std_ms": 0.06011414673673766,
+        "batch_size": 128,
+        "batch_mean_ms": 23.609311666890182,
+        "batch_p50_ms": 23.584099999425234,
+        "batch_p95_ms": 24.796399997467233,
+        "batch_throughput_samples_s": 5421.589659452369
+      }
+    },
+    {
+      "label": "Unstructured Global 90%",
+      "target_sparsity_pct": 90.0,
+      "storage": {
+        "tag": "global_90",
+        "total_params": 1008586,
+        "nonzero_params": 101652,
+        "weight_sparsity_pct": 90.0000396941959,
+        "dense_pt_bytes": 4038440,
+        "dense_gz_bytes": 676743,
+        "sparse_csr_pt_bytes": 1225898,
+        "sparse_csr_npz_bytes": 820292,
+        "sparse_csr_npz_compressed_bytes": 488230,
+        "dense_pt_mb": 3.8513565063476562,
+        "sparse_csr_pt_mb": 1.169107437133789,
+        "sparse_csr_npz_mb": 0.7822914123535156,
+        "sparse_csr_npz_compressed_mb": 0.46561241149902344
+      },
+      "latency": {
+        "single_mean_ms": 0.9095345000605448,
+        "single_p50_ms": 0.8280000001832377,
+        "single_p95_ms": 1.092559999415243,
+        "single_std_ms": 0.7100628935230968,
+        "batch_size": 128,
+        "batch_mean_ms": 21.13545999964117,
+        "batch_p50_ms": 21.04614999734622,
+        "batch_p95_ms": 22.398399997655357,
+        "batch_throughput_samples_s": 6056.1728962687885
+      }
+    },
+    {
+      "label": "Unstructured Global 95%",
+      "target_sparsity_pct": 95.0,
+      "storage": {
+        "tag": "global_95",
+        "total_params": 1008586,
+        "nonzero_params": 51267,
+        "weight_sparsity_pct": 95.00001984709796,
+        "dense_pt_bytes": 4038440,
+        "dense_gz_bytes": 456371,
+        "sparse_csr_pt_bytes": 621418,
+        "sparse_csr_npz_bytes": 417212,
+        "sparse_csr_npz_compressed_bytes": 252744,
+        "dense_pt_mb": 3.8513565063476562,
+        "sparse_csr_pt_mb": 0.5926303863525391,
+        "sparse_csr_npz_mb": 0.3978843688964844,
+        "sparse_csr_npz_compressed_mb": 0.24103546142578125
+      },
+      "latency": {
+        "single_mean_ms": 0.6304264999562292,
+        "single_p50_ms": 0.622049999947194,
+        "single_p95_ms": 0.699019999410666,
+        "single_std_ms": 0.04020063296410244,
+        "batch_size": 128,
+        "batch_mean_ms": 23.313423333578005,
+        "batch_p50_ms": 23.128900000301655,
+        "batch_p95_ms": 24.993575000189594,
+        "batch_throughput_samples_s": 5490.399164829789
+      }
+    }
+  ],
+  "structured_bench": [
+    {
+      "label": "Structured -10% Filters",
+      "filter_prune_pct": 10.0,
+      "channels": [
+        22,
+        43,
+        144
+      ],
+      "params": 901139,
+      "storage": {
+        "tag": "structured_10",
+        "total_params": 901139,
+        "nonzero_params": 901139,
+        "weight_sparsity_pct": 0.0,
+        "dense_pt_bytes": 3608672,
+        "dense_gz_bytes": 3439608,
+        "sparse_csr_pt_bytes": 10820042,
+        "sparse_csr_npz_bytes": 7216188,
+        "sparse_csr_npz_compressed_bytes": 3472551,
+        "dense_pt_mb": 3.441497802734375,
+        "sparse_csr_pt_mb": 10.318796157836914,
+        "sparse_csr_npz_mb": 6.881893157958984,
+        "sparse_csr_npz_compressed_mb": 3.31168270111084
+      },
+      "latency": {
+        "single_mean_ms": 0.5935604999376665,
+        "single_p50_ms": 0.5827999993925914,
+        "single_p95_ms": 0.655574999291275,
+        "single_std_ms": 0.0419621369553232,
+        "batch_size": 128,
+        "batch_mean_ms": 19.367741667156224,
+        "batch_p50_ms": 19.454300001598313,
+        "batch_p95_ms": 19.854689999192487,
+        "batch_throughput_samples_s": 6608.9274733079565
+      }
+    },
+    {
+      "label": "Structured -25% Filters",
+      "filter_prune_pct": 25.0,
+      "channels": [
+        18,
+        36,
+        120
+      ],
+      "params": 743298,
+      "storage": {
+        "tag": "structured_25",
+        "total_params": 743298,
+        "nonzero_params": 743298,
+        "weight_sparsity_pct": 0.0,
+        "dense_pt_bytes": 2977312,
+        "dense_gz_bytes": 2837806,
+        "sparse_csr_pt_bytes": 8925962,
+        "sparse_csr_npz_bytes": 5953460,
+        "sparse_csr_npz_compressed_bytes": 2867165,
+        "dense_pt_mb": 2.839385986328125,
+        "sparse_csr_pt_mb": 8.512460708618164,
+        "sparse_csr_npz_mb": 5.677661895751953,
+        "sparse_csr_npz_compressed_mb": 2.734341621398926
+      },
+      "latency": {
+        "single_mean_ms": 0.5433882500619802,
+        "single_p50_ms": 0.5159499996807426,
+        "single_p95_ms": 0.6871450004837243,
+        "single_std_ms": 0.10345436344969734,
+        "batch_size": 128,
+        "batch_mean_ms": 17.32158999996803,
+        "batch_p50_ms": 17.27030000074592,
+        "batch_p95_ms": 17.834329997276654,
+        "batch_throughput_samples_s": 7389.621853434716
+      }
+    },
+    {
+      "label": "Structured -50% Filters",
+      "filter_prune_pct": 50.0,
+      "channels": [
+        12,
+        24,
+        80
+      ],
+      "params": 487946,
+      "storage": {
+        "tag": "structured_50",
+        "total_params": 487946,
+        "nonzero_params": 487946,
+        "weight_sparsity_pct": 0.0,
+        "dense_pt_bytes": 1955872,
+        "dense_gz_bytes": 1863887,
+        "sparse_csr_pt_bytes": 5861706,
+        "sparse_csr_npz_bytes": 3910644,
+        "sparse_csr_npz_compressed_bytes": 1884261,
+        "dense_pt_mb": 1.865264892578125,
+        "sparse_csr_pt_mb": 5.590158462524414,
+        "sparse_csr_npz_mb": 3.729480743408203,
+        "sparse_csr_npz_compressed_mb": 1.796971321105957
+      },
+      "latency": {
+        "single_mean_ms": 0.48092124994582264,
+        "single_p50_ms": 0.42564999785099644,
+        "single_p95_ms": 0.7300599996597157,
+        "single_std_ms": 0.12814575271946121,
+        "batch_size": 128,
+        "batch_mean_ms": 10.064481666631764,
+        "batch_p50_ms": 9.817399999519694,
+        "batch_p95_ms": 11.533260001124289,
+        "batch_throughput_samples_s": 12717.992266246256
+      }
+    }
+  ],
+  "csr_linear_microbenchmark": [
+    {
+      "kernel": "dense_blas",
+      "sparsity_pct": 0.0,
+      "single_ms": 0.1308699999935925,
+      "batch_ms": 1.064779333343419,
+      "speedup_vs_dense_single": 1.0,
+      "speedup_vs_dense_batch": 1.0
+    },
+    {
+      "kernel": "torch_sparse_csr",
+      "sparsity_pct": 50.0,
+      "single_ms": 0.6277313333460673,
+      "batch_ms": 2.860813333342473,
+      "speedup_vs_dense_single": 0.20848091060868562,
+      "speedup_vs_dense_batch": 0.37219462064634906
+    },
+    {
+      "kernel": "torch_sparse_csr",
+      "sparsity_pct": 75.0,
+      "single_ms": 0.2653973333265943,
+      "batch_ms": 6.856789333323832,
+      "speedup_vs_dense_single": 0.4931097021707663,
+      "speedup_vs_dense_batch": 0.15528832542201887
+    },
+    {
+      "kernel": "torch_sparse_csr",
+      "sparsity_pct": 90.0,
+      "single_ms": 0.13496533332120939,
+      "batch_ms": 0.6153293333287971,
+      "speedup_vs_dense_single": 0.9696564056351401,
+      "speedup_vs_dense_batch": 1.7304218662601305
+    },
+    {
+      "kernel": "torch_sparse_csr",
+      "sparsity_pct": 95.0,
+      "single_ms": 0.09005466667683018,
+      "batch_ms": 0.34339466665793833,
+      "speedup_vs_dense_single": 1.4532284091754186,
+      "speedup_vs_dense_batch": 3.1007451097196714
+    }
+  ],
+  "energy": {
+    "baseline": {
+      "total_inferences": 300000,
+      "elapsed_s": 48.69317949999822,
+      "throughput_samples_s": 6161.027131120303,
+      "energy_kwh": 0.0006734634140131029,
+      "energy_joules_total": 2424.4682904471706,
+      "energy_joules_per_10k_inferences": 80.81560968157235,
+      "avg_power_watts": 49.79071638661959,
+      "emissions_g_co2": 0.4264558907286891,
+      "rss_mb": 672.8359375
+    },
+    "unstructured_global_90": {
+      "total_inferences": 300000,
+      "elapsed_s": 57.81085859999803,
+      "throughput_samples_s": 5189.336523709929,
+      "energy_kwh": 0.000807838166443089,
+      "energy_joules_total": 2908.2173991951204,
+      "energy_joules_per_10k_inferences": 96.94057997317068,
+      "avg_power_watts": 50.30572922843979,
+      "emissions_g_co2": 0.5115457464604244,
+      "rss_mb": 673.62890625
+    },
+    "structured_50": {
+      "total_inferences": 300000,
+      "elapsed_s": 23.597462000001542,
+      "throughput_samples_s": 12713.231617874007,
+      "energy_kwh": 0.00032888979875914115,
+      "energy_joules_total": 1184.0032755329082,
+      "energy_joules_per_10k_inferences": 39.46677585109694,
+      "avg_power_watts": 50.175026260571194,
+      "emissions_g_co2": 0.20826222948865344,
+      "rss_mb": 674.859375
+    },
+    "student_plain": {
+      "total_inferences": 300000,
+      "elapsed_s": 19.06521090000024,
+      "throughput_samples_s": 15735.467159190788,
+      "energy_kwh": 0.00027104108486291994,
+      "energy_joules_total": 975.7479055065118,
+      "energy_joules_per_10k_inferences": 32.52493018355039,
+      "avg_power_watts": 51.17949707582304,
+      "emissions_g_co2": 0.17163080408557707,
+      "rss_mb": 676.609375
+    },
+    "student_distilled": {
+      "total_inferences": 300000,
+      "elapsed_s": 18.51640520000001,
+      "throughput_samples_s": 16201.84894203978,
+      "energy_kwh": 0.00026436217160378774,
+      "energy_joules_total": 951.7038177736358,
+      "energy_joules_per_10k_inferences": 31.723460592454526,
+      "avg_power_watts": 51.39787164377,
+      "emissions_g_co2": 0.1674015292003233,
+      "rss_mb": 677.484375
+    }
+  }
+}

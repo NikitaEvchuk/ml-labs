@@ -1,0 +1,74 @@
+{
+  "rows": [
+    {
+      "variant": "Baseline Oversized CNN",
+      "data_pillar": "55k train / 5k val / 10k test (1x28x28 FP32)",
+      "model_params": 1008586,
+      "model_nonzero_params": 1008586,
+      "model_dense_mb": 3.851369857788086,
+      "model_compressed_mb": 3.714592933654785,
+      "test_acc_pct": 91.69,
+      "compute_theoretical_macs": 6516352.0,
+      "compute_executed_macs": 6516352.0,
+      "single_latency_ms": 0.8081729999867093,
+      "batch_throughput_samples_s": 5879.957002791171,
+      "energy_j_per_10k": 80.81560968157235
+    },
+    {
+      "variant": "Unstructured Global Pruned (90%)",
+      "data_pillar": "Same dataset + 3 ep mask-fixed fine-tune",
+      "model_params": 1008586,
+      "model_nonzero_params": 100770,
+      "model_dense_mb": 3.8513565063476562,
+      "model_compressed_mb": 0.46561241149902344,
+      "test_acc_pct": 91.54,
+      "compute_theoretical_macs": 651632.6133864709,
+      "compute_executed_macs": 6516352.0,
+      "single_latency_ms": 0.9095345000605448,
+      "batch_throughput_samples_s": 6056.1728962687885,
+      "energy_j_per_10k": 96.94057997317068
+    },
+    {
+      "variant": "Structured L2 Pruned (-50% Filters)",
+      "data_pillar": "Same dataset + 3 ep fine-tune",
+      "model_params": 487946,
+      "model_nonzero_params": 487946,
+      "model_dense_mb": 1.865264892578125,
+      "model_compressed_mb": 1.796971321105957,
+      "test_acc_pct": 90.84,
+      "compute_theoretical_macs": 1906624.0,
+      "compute_executed_macs": 1906624.0,
+      "single_latency_ms": 0.48092124994582264,
+      "batch_throughput_samples_s": 12717.992266246256,
+      "energy_j_per_10k": 39.46677585109694
+    },
+    {
+      "variant": "Plain Student CNN (~100k)",
+      "data_pillar": "Same dataset, hard labels only (CE)",
+      "model_params": 99550,
+      "model_nonzero_params": 99550,
+      "model_dense_mb": 0.3830718994140625,
+      "model_compressed_mb": 0.3702964782714844,
+      "test_acc_pct": 89.78,
+      "compute_theoretical_macs": 1110744.0,
+      "compute_executed_macs": 1110744.0,
+      "single_latency_ms": 0.2932324997800606,
+      "batch_throughput_samples_s": 14386.84233287535,
+      "energy_j_per_10k": 32.52493018355039
+    },
+    {
+      "variant": "Distilled Student CNN (~100k, T=4)",
+      "data_pillar": "Hard labels + soft Teacher logits (alpha=0.5)",
+      "model_params": 99550,
+      "model_nonzero_params": 99550,
+      "model_dense_mb": 0.3831787109375,
+      "model_compressed_mb": 0.3696002960205078,
+      "test_acc_pct": 89.46,
+      "compute_theoretical_macs": 1110744.0,
+      "compute_executed_macs": 1110744.0,
+      "single_latency_ms": 0.2931797499240929,
+      "batch_throughput_samples_s": 14521.798864564178,
+      "energy_j_per_10k": 31.723460592454526
+    }
+  ]
+}

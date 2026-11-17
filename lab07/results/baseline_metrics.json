@@ -1,0 +1,148 @@
+{
+  "architecture": {
+    "name": "OversizedCNN",
+    "channels": [
+      24,
+      48,
+      160
+    ],
+    "fc_hidden": 640,
+    "total_params": 1008586,
+    "thop_params": 1008586,
+    "dense_macs": 6516352.0,
+    "dense_flops": 13032704.0
+  },
+  "training": {
+    "epochs": 10,
+    "optimizer": "Adam",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "scheduler": "CosineAnnealingLR",
+    "total_train_time_s": 226.79037649999918,
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss": 0.577261841917038,
+        "train_acc": 79.00545454545454,
+        "val_loss": 0.3931745743274689,
+        "val_acc": 86.26,
+        "lr": 0.0009757729755661011,
+        "epoch_time_s": 23.82613820000006
+      },
+      {
+        "epoch": 2,
+        "train_loss": 0.33305029420419174,
+        "train_acc": 87.8490909090909,
+        "val_loss": 0.3331104360103607,
+        "val_acc": 87.64,
+        "lr": 0.000905463412215599,
+        "epoch_time_s": 22.470281399999294
+      },
+      {
+        "epoch": 3,
+        "train_loss": 0.2800275157364932,
+        "train_acc": 89.7309090909091,
+        "val_loss": 0.313589514541626,
+        "val_acc": 88.54,
+        "lr": 0.0007959536998847742,
+        "epoch_time_s": 22.246152200001234
+      },
+      {
+        "epoch": 4,
+        "train_loss": 0.2458134585532275,
+        "train_acc": 91.02,
+        "val_loss": 0.26450613269805906,
+        "val_acc": 90.54,
+        "lr": 0.000657963412215599,
+        "epoch_time_s": 22.797413200001756
+      },
+      {
+        "epoch": 5,
+        "train_loss": 0.2226927654396404,
+        "train_acc": 91.82363636363637,
+        "val_loss": 0.2517118172168732,
+        "val_acc": 91.02,
+        "lr": 0.000505,
+        "epoch_time_s": 21.113356300000305
+      },
+      {
+        "epoch": 6,
+        "train_loss": 0.20087638258717277,
+        "train_acc": 92.69090909090909,
+        "val_loss": 0.2359339635848999,
+        "val_acc": 91.36,
+        "lr": 0.0003520365877844011,
+        "epoch_time_s": 22.980878599999414
+      },
+      {
+        "epoch": 7,
+        "train_loss": 0.17918539582057433,
+        "train_acc": 93.50363636363636,
+        "val_loss": 0.23413582487106324,
+        "val_acc": 91.42,
+        "lr": 0.00021404630011522585,
+        "epoch_time_s": 22.706365999998525
+      },
+      {
+        "epoch": 8,
+        "train_loss": 0.16314691842035814,
+        "train_acc": 94.17454545454545,
+        "val_loss": 0.22824231743812562,
+        "val_acc": 91.84,
+        "lr": 0.00010453658778440107,
+        "epoch_time_s": 23.060724499999196
+      },
+      {
+        "epoch": 9,
+        "train_loss": 0.15013977477983995,
+        "train_acc": 94.64545454545454,
+        "val_loss": 0.2220875935316086,
+        "val_acc": 91.92,
+        "lr": 3.4227024433899005e-05,
+        "epoch_time_s": 22.683652899999288
+      },
+      {
+        "epoch": 10,
+        "train_loss": 0.14207143547101456,
+        "train_acc": 94.98181818181818,
+        "val_loss": 0.22361643619537352,
+        "val_acc": 91.94,
+        "lr": 1e-05,
+        "epoch_time_s": 22.893469399999958
+      }
+    ]
+  },
+  "metrics": {
+    "best_val_acc": 91.94,
+    "best_val_loss": 0.22361643619537352,
+    "test_acc": 91.69,
+    "test_loss": 0.23201555161476134,
+    "storage": {
+      "tag": "baseline_0",
+      "total_params": 1008586,
+      "nonzero_params": 1008586,
+      "weight_sparsity_pct": 0.0,
+      "dense_pt_bytes": 4038454,
+      "dense_gz_bytes": 3858875,
+      "sparse_csr_pt_bytes": 12109442,
+      "sparse_csr_npz_bytes": 8075764,
+      "sparse_csr_npz_compressed_bytes": 3895033,
+      "dense_pt_mb": 3.851369857788086,
+      "sparse_csr_pt_mb": 11.548463821411133,
+      "sparse_csr_npz_mb": 7.701648712158203,
+      "sparse_csr_npz_compressed_mb": 3.714592933654785
+    },
+    "latency": {
+      "single_mean_ms": 0.8081729999867093,
+      "single_p50_ms": 0.7811000004949165,
+      "single_p95_ms": 0.9913250000863624,
+      "single_std_ms": 0.09688310704182113,
+      "batch_size": 128,
+      "batch_mean_ms": 21.76886666675273,
+      "batch_p50_ms": 21.397250000518397,
+      "batch_p95_ms": 23.762749998331856,
+      "batch_throughput_samples_s": 5879.957002791171
+    }
+  },
+  "checkpoint_path": "lab07\\results\\checkpoints\\baseline_oversized_best.pt"
+}
